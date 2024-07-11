@@ -1,104 +1,137 @@
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import javax.imageio.ImageIO;
-
-import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.JButton;
+import javax.swing.BorderFactory;
 
-import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 public class RandomChampion{
 
 	static Champion[] championValues;
 
+	static JFrame win = new JFrame();
+	static JLayeredPane scr = new JLayeredPane();
+
+	static Boolean done;
+
+	static Double yLevel = 0.5;
+
 	public static void main(String[] args){
 		String[] champions = loadChampions();
-		try {
-
-			String web = "https://ddragon.leagueoflegends.com/cdn/14.13.1/img/champion/";
-			String form = ".png";
-
-			for (int i = 0; i < champions.length; i++){
-
-				String actualName = champions[i]
-					.replace(". ","") //Dr.Mundo
-					.replace(" ","") //Asol
-					.replace("'V","v") //Belveth
-					.replace("'G","g") //Chogath
-					.replace("K'S","KS") //Ksante
-					.replace("i'S", "is") //Kaisa
-					.replace("'Z", "z") //Khazix
-					.replace("'M","M") //Kogmaw
-					.replace("eB", "eb") //Leblanc
-					.replace("&Willump","") //Nunu
-					.replace("'S","S") //RekSai
-					.replace("Glasc","") //Renata
-					.replace("l'K","lk") //Velkoz
-					.replace("Wukong","MonkeyKing"); //"wu Kong"
-
-				File file = new File("icon\\" + actualName + form);
-				file.createNewFile();
-				System.out.println("Writing " + actualName + ".png");
-				if (ImageIO.write(ImageIO.read(new URI(web + actualName + form).toURL()), form, file)){
-					System.out.println("Completed " + actualName);
-				}
-			}
-		} catch (IOException e){System.out.println("IOEX"); e.printStackTrace();}
-		catch (URISyntaxException e){System.out.println("URIS"); e.printStackTrace();}
 		
-
-		/*
-		JFrame win = new JFrame();
 		win.setUndecorated(true);
 		win.setDefaultCloseOperation(3);
 		win.setLayout(null);
-		JPanel scr = new JPanel();
-		scr.setBounds(0,0,600,400);
+		scr.setBounds(0,0,850,400);
 		scr.setBackground(Schemes.grey3);
 		scr.setLayout(null);
+		JPanel champs = new JPanel();
+		champs.setBounds(0,0,scr.getWidth(),scr.getHeight());
+		champs.setLayout(null);
 		win.add(scr);
 
 		championValues = new Champion[champions.length];
+		System.out.println(120 * champions.length);
 		for (int i = 0; i < champions.length; i++){
-			System.out.print(i + ", ");
-			championValues[i] = new Champion(champions[i]);
-			if (i < 4){
-				championValues[i].display.setBounds(0, 20 + i * 120, Champion.width, Champion.height);
-			} else if (i == champions.length - 1){
-				championValues[i].display.setBounds(0, -100, Champion.width, Champion.height);
-			}else {
-				championValues[i].display.setBounds(-999, -999, Champion.width, Champion.height);
+			if (champions[i].split(", ").length > 1){
+				championValues[i] = new Champion(champions[i].split(", ")[0], champions[i].split(", ")[1]);
+			} else {
+				championValues[i] = new Champion(champions[i]);
 			}
-			scr.add(championValues[i].display);
-		}
-
-		JButton start = new JButton("Start");
-		start.setBounds(425,125,125,35);
-		start.setBackground(Schemes.grey1);
-		start.setFont(Schemes.descFont);
-		start.setForeground(Schemes.grey2);
-		start.setFocusable(false);
-		scr.add(start);
+			championValues[i].display.setBounds(-999, -999, Champion.width, Champion.height);
+			System.out.print(i + "| " + champions[i] + ".");
+			champs.add(championValues[i].display, 0);
+		} scr.add(champs, 0);
+		
+		scroll(0);
 
 		win.pack();
-		win.setSize(600, 400);
+		win.setSize(scr.getWidth(),scr.getHeight());
 		win.setLocationRelativeTo(null);
-		win.setVisible(true);*/
+		win.addMouseWheelListener(new MouseWheelListener(){
+			public void mouseWheelMoved(MouseWheelEvent e){
+				RandomChampion.scroll(e.getWheelRotation());
+			}
+		});
+		win.addKeyListener(new KeyListener(){
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() != 32)return;
+				Thread t = new Thread(new Runnable(){
+					public void run(){
+						try {
+							for (int i = 0; i < new Random().nextInt(championValues.length); i++){
+								scroll(150);
+								Thread.sleep(16);
+							}
+							for (int i = 150; i >55; i -= 2){
+								scroll(i);
+								Thread.sleep(16);
+							}
+							for (int i = 55; i > 10; i--){
+								scroll(i);
+								Thread.sleep(16);
+								scroll(i);
+								Thread.sleep(16);
+							}
+							for (int i = 10; i > 0; i--){
+								for (int o = 0; o < ((10 - i) * 2) + 3; o++){
+									scroll(i);
+									Thread.sleep(16);
+								}
+							} scroll(0);
+							return;
+						} catch (InterruptedException e){
+
+						}
+					}
+				}); t.start(); System.out.println("Randomizing!");
+			}
+			public void keyPressed(KeyEvent e) {}
+			public void keyTyped(KeyEvent e) {}
+		});
+		win.setVisible(true);
+	}
+
+	public static void scroll(int howMuch){
+		double move;
+		
+		if (howMuch > 150) howMuch = 150;
+		if (howMuch < -150) howMuch = -150;
+
+		move = ((double)howMuch  * 4)/ Champion.height;
+
+		yLevel += move;
+		if (yLevel >= championValues.length)yLevel = 0.0 + Math.abs(yLevel - championValues.length);
+		if (yLevel < 0)yLevel = (double)championValues.length - Math.abs(yLevel);
+
+		Integer BufferRange = 18;
+		for (int i = 0; i < BufferRange; i++){
+			Integer index = (int)Math.round(yLevel - 0.5) + i - (BufferRange / 2);
+			if (index < 0){index += championValues.length;}
+			if (index > championValues.length - 1){index -= championValues.length;}
+			championValues[index].display.setBounds(0, (int)(200 - (120 * (yLevel - Math.round(yLevel - 0.5) + (BufferRange/2) - i))), Champion.width, Champion.height);
+			if (i == BufferRange/2){
+				championValues[index].display.setBorder(BorderFactory.createLineBorder(((move != 0) ? Schemes.gold2 : Schemes.blue2), 3));
+			} else {
+				championValues[index].display.setBorder(BorderFactory.createLineBorder(Schemes.seeThrough));
+			}
+		}
+		scr.repaint();
 	}
 
 	public static String[] loadChampions(){
-		File ChampionListTxt = new File("ChampionList.txt");
+		File ChampionListTxt = new File("thisList.txt");
 		try {
 			FileReader ChampionListReader = new FileReader(ChampionListTxt);
-			char[] characters = new char[2000];
+			char[] characters = new char[5000];
 			ChampionListReader.read(characters);
 			ChampionListReader.close();
 
@@ -113,7 +146,6 @@ public class RandomChampion{
 			}
 
 			String[] smallStrings = bigString.split(((char)13 + "" + (char)10));
-
 			return smallStrings;
 
 		} catch (IOException e){}
