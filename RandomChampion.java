@@ -39,7 +39,6 @@ public class RandomChampion{
 		win.add(scr);
 
 		championValues = new Champion[champions.length];
-		System.out.println(120 * champions.length);
 		for (int i = 0; i < champions.length; i++){
 			if (champions[i].split(", ").length > 1){
 				championValues[i] = new Champion(champions[i].split(", ")[0], champions[i].split(", ")[1]);
@@ -47,7 +46,6 @@ public class RandomChampion{
 				championValues[i] = new Champion(champions[i]);
 			}
 			championValues[i].display.setBounds(-999, -999, Champion.width, Champion.height);
-			System.out.print(i + "| " + champions[i] + ".");
 			champs.add(championValues[i].display, 0);
 		} scr.add(champs, 0);
 		
@@ -131,10 +129,9 @@ public class RandomChampion{
 		File ChampionListTxt = new File("thisList.txt");
 		try {
 			FileReader ChampionListReader = new FileReader(ChampionListTxt);
-			char[] characters = new char[5000];
+			char[] characters = new char[(int)ChampionListTxt.length()];
 			ChampionListReader.read(characters);
 			ChampionListReader.close();
-
 
 			String bigString = "";
 			for (int i = 0; i < characters.length; i++){
