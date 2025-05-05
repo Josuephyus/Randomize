@@ -8,6 +8,7 @@ Anivia, The Cryophoenix
 Annie, The Dark Child
 Aphelios, The Weapon of the Faithful
 Ashe, The Frost Archer
+Aurora,  The Witch between Worlds
 Aurelion Sol, The Star Forger
 Azir, The Emperor of the Sands
 Bard, The Wandering Caretaker
@@ -77,6 +78,7 @@ Malphite, Shard of the Monolith
 Malzahar, The Prophet of the Void
 Maokai, The Twitsted Treant
 Master Yi, The  Wuju Bladesman
+Mel, The Soul's Reflection
 Milio, The Gentle Flame
 Miss Fortune, The Bounty Hunter
 Mordekaiser, The Iron Revenant
