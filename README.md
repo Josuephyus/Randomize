@@ -6,19 +6,20 @@ Because it is made with Java, as long as Java is installed, it should work.
 
 # How to Use?
 
-Required:
-- Java (latest)
-- The following items in the same directory
-  - thisList.txt
-  - icons (folder)
+Required: Java (Either JDK or JRE)
+
+1. Extract 'RANDOM_CHAMPION'
+2. Run Execute.cmd (Window) or Execute.sh (Linux).
 
 Any champion listed in "thisList.txt" will be used in the randomizer.
+
+The 'Execute' files just run the command 'java -jar RandomChampion.jar' so feel free to skip them if you can. I need them because... I don't know actually...
 
 # thisList Structure
 
 {name}, {title / description}
 
-All spaces, periods, and apostrophes are removed when searching for the icon of {name}. It only accepts ".pngs" (as of now).
+All spaces, periods, and apostrophes are removed from {name} when searching for the icon. It only accepts ".pngs" (as of now).
 
 # Current Features
 
@@ -28,9 +29,10 @@ Pressing a letter searches for the first champion that starts with that letter
 
 The League of Legends font can be downloaded for additional immersion.
 
-The title is not necessary and can be omitted.
+The {title / description} is not necessary and can be omitted.
 
 # Caution
+
 1. There is a minimum of 10 entries (can be duplicates)
 2. Rolling multiple times (while possible) can cause some unintended behavior
 3. An 'endline' character is required at the end of a page (essentially the last line has to be empty).
@@ -38,6 +40,7 @@ The title is not necessary and can be omitted.
 
 
 # TODO List
+
 - [ ] Pressing Backspace removes a character from the list
 - [ ] Create a minimum of one character instead of 10
 - [ ] Crash Gracefully when 'thisList.txt' or 'icons' do not exists
