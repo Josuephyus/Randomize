@@ -93,7 +93,7 @@ public class Champion extends JPanel {
         String name = in;
         
         // Dr.Mundo
-        name = name.replace(". ","");
+        name = name.replace(".","");
 
         // Asol
         name = name.replace(" ", "");
@@ -101,15 +101,6 @@ public class Champion extends JPanel {
         // BelVeth, ChoGath, KSante, KaiSa, KhaZix, KogMaw,
         // RekSai, VelKoz
         name = name.replace("'", "");
-
-        // Nunu
-        name = name.replace("&Willump","");
-
-        // Renata
-        name = name.replace("Glasc","");
-
-        // Wukong
-        name = name.replace("Wukong","MonkeyKing");
         
         return name + ".png";
     }

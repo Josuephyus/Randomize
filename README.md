@@ -1,15 +1,47 @@
-Has every champion and selects a random one.
+# Biography
 
-Don't know how to compress to a .exe from java but will learn.
+This project was made for DangotheSeaOtter as a replacement for a website based randomizer, but I'll take any requests and bug reports.
 
-# HOW IT WORKS
-It reads from the thisList.txt to get the champion name and title (separated by ", "). Afterward, it finds the icon of the champion and all three to make a panel. This panel is then placed based on the Y Position (Double). Scrolling up or down increases or decreases the Y Position. Pressing Space Rolls it Randomly.
+Because it is made with Java, as long as Java is installed, it should work.
 
-# Fonts
-Font downloads are in the Font Packs. They are just stylistic and (if i learn to package) will come with the .exe.
+# How to Use?
+
+Required:
+- Java (latest)
+- The following items in the same directory
+  - thisList.txt
+  - icons (folder)
+
+Any champion listed in "thisList.txt" will be used in the randomizer.
+
+# thisList Structure
+
+{name}, {title / description}
+
+All spaces, periods, and apostrophes are removed when searching for the icon of {name}. It only accepts ".pngs" (as of now).
+
+# Current Features
+
+Pressing [ Space ] rolls for a random champion.
+
+Pressing a letter searches for the first champion that starts with that letter
+
+The League of Legends font can be downloaded for additional immersion.
+
+The title is not necessary and can be omitted.
 
 # Caution
-Be Careful. It only allows 5,000 characters in a text document and a minimum of 19 entries. The title is not necessary and can be omitted.
-I'll update it when the new champions come out, but as of this patch Aurora is not out so good enough.
+1. There is a minimum of 10 entries (can be duplicates)
+2. Rolling multiple times (while possible) can cause some unintended behavior
+3. An 'endline' character is required at the end of a page (essentially the last line has to be empty).
+4. 'thisList.txt' must be 'LF' (not 'CRLF')
 
-glhf!
+
+# TODO List
+- [ ] Pressing Backspace removes a character from the list
+- [ ] Create a minimum of one character instead of 10
+- [ ] Crash Gracefully when 'thisList.txt' or 'icons' do not exists
+- [ ] Generate a list from the current use
+- [ ] Pressing enter to refresh the list based on thisList.txt
+- [ ] Pressing Ctrl-Z will undo the removal of a character
+- [ ] Show a 'None.png' when no '{name}.png' is found
