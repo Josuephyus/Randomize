@@ -45,3 +45,5 @@ The title is not necessary and can be omitted.
 - [ ] Pressing enter to refresh the list based on thisList.txt
 - [ ] Pressing Ctrl-Z will undo the removal of a character
 - [ ] Show a 'None.png' when no '{name}.png' is found
+- [ ] Allow Arrow Keys for quick navigation
+- [ ] Proper Resizing
