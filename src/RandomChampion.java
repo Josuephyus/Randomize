@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
@@ -42,11 +43,7 @@ public class RandomChampion{
 			win.add(championValues[i]);
 		}
 		
-		win.addMouseWheelListener(new MouseWheelListener(){
-			public void mouseWheelMoved(MouseWheelEvent e){
-				Scroll(e.getWheelRotation());
-			}
-		});
+		win.addMouseWheelListener(mouL);
 		win.addKeyListener(keyL);
 
 		Scroll(0);
@@ -54,6 +51,11 @@ public class RandomChampion{
 	}
 
 
+	public static MouseWheelListener mouL = new MouseWheelListener(){
+		public void mouseWheelMoved(MouseWheelEvent e) {
+			Scroll(e.getWheelRotation());
+		}
+	};
 
 	public static KeyListener keyL = new KeyListener(){
 		public void keyReleased(KeyEvent e) {
@@ -81,10 +83,11 @@ public class RandomChampion{
 	public static Runnable Scroll_On_Space = new Runnable(){
 		public void run(){
 			try {
-				AutoScroll(149, new Random().nextInt(championValues.length), 16);
-				AutoScroll_Decrease(150, 55, -2, 16);
-				AutoScroll_Decrease(55, 10, -1, 16);
-				AutoScroll_Slow(16);
+				int sleep = 8;
+				AutoScroll(149, new Random().nextInt(championValues.length) * 2, sleep);
+				AutoScroll_Decrease(150 * 2, 55, -2, sleep);
+				AutoScroll_Decrease(55 * 2, 10, -1, sleep);
+				AutoScroll_Slow(sleep);
 				Scroll(0);
 				return;
 			} catch (InterruptedException e){}
@@ -123,8 +126,8 @@ public class RandomChampion{
 
 		// Limit Momentum
 		double move = (double)howMuch;
-		if (move > 150) move = 150;
-		if (move < -150) move = -150;
+		if (move > 299) move = 299;
+		if (move < -299) move = -299;
 
 
 		// Apply Momentum
@@ -145,7 +148,6 @@ public class RandomChampion{
 		int scr_h = win.getHeight();
 		int yRound = (int)Math.round(yLevel - 0.5f);
 		double yValue = yLevel - yRound;
-		System.out.println("VAL: " + yValue);
 		for (int i = 0; i < visible; i++){
 			int index = yRound + i - half;
 
@@ -196,19 +198,31 @@ public class RandomChampion{
 			ChampionListReader.read(characters);
 			ChampionListReader.close();
 
-			String bigString = "";
-			for (int i = 0; i < characters.length; i++){
-				if (characters[i] != 0){
-					bigString += ("" + characters[i]);
+
+			ArrayList<String> list = new ArrayList<String>();
+			String line = "";
+			for (int i = 0; i < characters.length; i++) {
+				if (characters[i] == (char)10) {
+					list.add(line);
+					line = new String();
 				} else {
-					i = characters.length;
+					line += characters[i];
 				}
 			}
+			System.out.println("COUNT: " + list.size());
 
-			String[] smallStrings = bigString.split(((char)13 + "" + (char)10));
-			return smallStrings;
+			
+			String[] arr = new String[list.size()];
+			for (int i = 0; i < arr.length; i++) {
+				arr[i] = list.get(i);
+			}
+			
+			return arr;
 
-		} catch (IOException e){}
+		} catch (IOException e){
+			System.out.println("ERR: "); e.printStackTrace();
+		}
+		
 		return new String[]{};
 	}
 }

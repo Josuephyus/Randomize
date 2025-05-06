@@ -48,7 +48,7 @@ public class Champion extends JPanel {
 
         LABEL_Icon = new JLabel();
         try {
-            File imageFile = new File("icons\\" + FixNameForIcon(name));
+            File imageFile = new File("icons/" + FixNameForIcon(name));
             BufferedImage bufferedImage = ImageIO.read(imageFile);
             ImageIcon imageIcon = new ImageIcon(bufferedImage);
 
