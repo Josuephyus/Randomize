@@ -3,8 +3,8 @@ import java.awt.Font;
 
 public class Schemes {
 
-    public static final Font titleFont = new Font("Beaufort for LOL", Font.BOLD, 80);
-    public static final Font descFont = new Font("Spiegel Bold", Font.PLAIN, 30);
+    public static final Font titleFont = new Font("Beaufort for LOL", Font.BOLD, 50);
+    public static final Font descFont = new Font("Spiegel Bold", Font.PLAIN, 20);
 
     public static final Color grey1 = new Color(160, 155, 140);
     public static final Color grey2 = new Color(91, 90, 86);

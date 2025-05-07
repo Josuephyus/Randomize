@@ -6,16 +6,20 @@ import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.AffineTransformOp;
+import java.awt.geom.AffineTransform;
+
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import java.util.ArrayList;
 
 public class Champion extends JPanel {
 
     public static int width = 850;
-    public static final int height = 120;
+    public static final int height = 80;
     public int x = 0;
     public int y = -200;
     public boolean selected = false;
@@ -24,7 +28,7 @@ public class Champion extends JPanel {
 
     JLabel LABEL_Name;
     JLabel LABEL_Title;
-    JLabel LABEL_Icon;
+    BufferedImage IMAGE;
 
     public String name;
     public String title;
@@ -41,45 +45,40 @@ public class Champion extends JPanel {
         this.setBounds(x, y, width, height);
 
         LABEL_Name = new JLabel(name.toUpperCase());
-        LABEL_Name.setBounds(130, 5, width, 80);
+        LABEL_Name.setBounds(90, 5, width, 50);
         LABEL_Name.setFont(Schemes.titleFont);
         LABEL_Name.setForeground(Schemes.gold);
         this.add(LABEL_Name);
 
         LABEL_Title = new JLabel(title);
-        LABEL_Title.setBounds(130, 85, width, 30);
+        LABEL_Title.setBounds(90, 50, width, 30);
         LABEL_Title.setFont(Schemes.descFont);
         LABEL_Title.setForeground(Schemes.gold2);
         this.add(LABEL_Title);
 
-        LABEL_Icon = new JLabel();
         try {
-            File imageFile = new File("Icons/" + FixNameForIcon(name));
-            BufferedImage imageBuff = ImageIO.read(imageFile);
-            ImageIcon imageIcon = new ImageIcon(imageBuff);
-
-            LABEL_Icon.setIcon(imageIcon);
+            IMAGE = Champion.LoadImage("Icons/" + FixNameForIcon(name));
         } catch (IOException e) {
             System.out.println("Failed: " + FixNameForIcon(name));
 
             try {
-                File imageFile = new File("Icons/None.png");
-                BufferedImage imageBuff = ImageIO.read(imageFile);
-                ImageIcon imageIcon = new ImageIcon(imageBuff);
-
-                LABEL_Icon.setIcon(imageIcon);
+                IMAGE = Champion.LoadImage("Icons/None.png");
             } catch (IOException e2) { System.out.println("  Failed: None.png");}
         }
-        LABEL_Icon.setBounds(0, 0, 120, 120);
-        this.add(LABEL_Icon);
     }
 
 
-    public static Champion[] ConvertStringArray(String[] in) {
-		Champion[] Champions = new Champion[in.length];
+    public static ArrayList<Champion> ConvertStringArray(String[] in) {
+		ArrayList<Champion> Champions = new ArrayList<Champion>();
+        
+        AT = new AffineTransform();
+        AT.scale(80, 80);
+        SCALE = new AffineTransformOp(AT, AffineTransformOp.TYPE_BILINEAR);
+        
 		for (int i = 0; i < in.length; i++) {
-            Champions[i] = ConvertString(in[i]);
+            Champions.add(ConvertString(in[i]));
 		}
+
         return Champions;
     }
 
@@ -99,6 +98,8 @@ public class Champion extends JPanel {
         this.update();
         super.paintComponent(g);
 
+        ((Graphics2D)g).drawImage(IMAGE, 0, 0, 80, 80, null);
+
         if (selected) {
             if (moving)
                 g.setColor(Schemes.blue2);
@@ -113,11 +114,6 @@ public class Champion extends JPanel {
 
     public void update() {
         this.setBounds(x, y, width, height);
-
-        if (selected)
-            this.LABEL_Icon.setBounds(4, 4, 120, 112);
-        else
-            this.LABEL_Icon.setBounds(0, 0, 120, 120);
     }
 
 
@@ -136,5 +132,16 @@ public class Champion extends JPanel {
         name = name.replace("'", "");
         
         return name + ".png";
+    }
+
+
+    public static AffineTransform AT;
+    public static AffineTransformOp SCALE;
+
+    public static BufferedImage LoadImage(String in) throws IOException {
+        File imageFile = new File(in);
+        BufferedImage imageBuff = ImageIO.read(imageFile);
+        
+        return imageBuff;
     }
 }

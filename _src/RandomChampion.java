@@ -19,7 +19,8 @@ import java.awt.event.WindowAdapter;
 public class RandomChampion{
 
 	static JFrame win;
-	static Champion[] Champions;
+	static ArrayList<Champion> Champions;
+	static ArrayList<Champion> RemovedChampions;
 	static double scroll_value = 0.5;
 	static double momentum = 0;
 
@@ -43,9 +44,10 @@ public class RandomChampion{
 
 		// Setup Champion Panels and add them to the window
 		String[] lines = LoadList();
+		RemovedChampions = new ArrayList<Champion>();
 		Champions = Champion.ConvertStringArray(lines);
-		for (int i = 0; i < Champions.length; i++) {
-			win.add(Champions[i]);
+		for (int i = 0; i < Champions.size(); i++) {
+			win.add(Champions.get(i));
 		}
 
 
@@ -87,9 +89,11 @@ public class RandomChampion{
 	public static void ReduceMomentum() {
 		scroll_value += (momentum * 4.0 / Champion.height);
 
-		if (Champions == null) { return; }
-		scroll_value %= Champions.length;
-		if (scroll_value < 0) scroll_value += Champions.length;
+		if (Champions == null) return;
+		if (Champions.size() == 0) return;
+
+		scroll_value %= Champions.size();
+		if (scroll_value < 0) scroll_value += Champions.size();
 
 		if (momentum > 1000) momentum = 1000.0;
 		else if (momentum > 150) momentum -= 50.0 / 60.0;
@@ -119,8 +123,9 @@ public class RandomChampion{
 
 			// IF (Letter) Search that letter
 			if (code > 64 && code < 91) {
-				for (int i = 0; i < Champions.length; i++) {
-					if (Champions[i].name.getBytes()[0] >= code) {
+				for (int i = 0; i < Champions.size(); i++) {
+					Champion tempChamp = Champions.get(i);
+					if (tempChamp.name.getBytes()[0] >= code) {
 						scroll_value = i;
 						break;
 					}
@@ -138,20 +143,43 @@ public class RandomChampion{
 				scroll_value += 1;
 				return;
 			}
-			// Left: 37
-			// Right: 39
+			if (code == 37) { // Left
+				if (RemovedChampions.size() == 0) return;
+
+				Champion tempChamp = RemovedChampions.get(RemovedChampions.size() - 1);
+				for (int i = 0; i < Champions.size(); i++) {
+					String name = Champions.get(i).name;
+					if (name.compareTo(tempChamp.name) > 0) {
+						Champions.add(i, tempChamp);
+						RemovedChampions.remove(RemovedChampions.size() - 1);
+						win.add(tempChamp);
+						return;
+					}
+				}
+				Champions.add(tempChamp);
+				win.add(tempChamp);
+				return;
+			}
 
 			
 			// IF (Enter) Refresh list
 			if (code == 10) {
-				for (int i = 0; i < Champions.length; i++) {
-					win.remove(Champions[i]);
+				for (int i = 0; i < Champions.size(); i++) {
+					win.remove(Champions.get(i));
 				}
 				String[] lines = LoadList();
 				Champions = Champion.ConvertStringArray(lines);
-				for (int i = 0; i < Champions.length; i++) {
-					win.add(Champions[i]);
+				for (int i = 0; i < Champions.size(); i++) {
+					win.add(Champions.get(i));
 				}
+			}
+
+
+			// IF (Backspace) Remove item
+			if (code == 8) {
+				win.remove(Champions.get((int)scroll_value));
+				RemovedChampions.add(Champions.get((int)scroll_value));
+				Champions.remove((int)scroll_value);
 			}
 		}
 		public void keyPressed(KeyEvent e) {}
@@ -168,36 +196,38 @@ public class RandomChampion{
 		double yValue = scroll_value - yRound;
 
 		if (Champions == null) return;
+		if (Champions.size() == 0) return;
+
 		for (int i = 0; i < visible; i++){
 			int index = yRound + i - half;
 
-			if (index < 0) index += Champions.length;
-			if (index > Champions.length - 1) index %=  Champions.length;
+			if (index < 0) index += Champions.size();
+			if (index > Champions.size() - 1) index %=  Champions.size();
 			
-			int y = (int)((half - i + yValue) * 120) + (scr_h / 2) + 10;
-			Champions[index].y = scr_h - y;
+			int y = (int)((half - i + yValue) * Champion.height) + (scr_h / 2) + 10;
+			Champions.get(index).y = scr_h - y;
 			if (i == half) {
-				Champions[index].selected = true;
+				Champions.get(index).selected = true;
 			} else {
-				Champions[index].selected = false;
+				Champions.get(index).selected = false;
 			}
 
-			Champions[index].affected = true;
+			Champions.get(index).affected = true;
 		}
 		
 
 		// Assign Default Values for those unaffected
 		Champion.width = win.getWidth();
-		for (int i = 0; i < Champions.length; i++) {
-			if (Champions[i].affected) {
-				Champions[i].affected = false;
-				Champions[i].update();
+		for (int i = 0; i < Champions.size(); i++) {
+			if (Champions.get(i).affected) {
+				Champions.get(i).affected = false;
+				Champions.get(i).update();
 				continue;
 			}
 
-			Champions[i].y = -500;
-			Champions[i].selected = false;
-			Champions[i].update();
+			Champions.get(i).y = -500;
+			Champions.get(i).selected = false;
+			Champions.get(i).update();
 		}
 
 		// Repaint the window
@@ -269,14 +299,16 @@ public class RandomChampion{
 
 	public static void SaveList() {
 		
+		if (Champions == null) return;
+		if (Champions.size() == 0) return;
 		File closeFile = new File("close.txt");
 
 		try {
 			FileWriter closeWriter = new FileWriter(closeFile);
-			for (int i = 0; i < Champions.length; i++) {
-				closeWriter.write(Champions[i].name);
+			for (int i = 0; i < Champions.size(); i++) {
+				closeWriter.write(Champions.get(i).name);
 				closeWriter.write(", ");
-				closeWriter.write(Champions[i].title);
+				closeWriter.write(Champions.get(i).title);
 				closeWriter.write("\n");
 			}
 			closeWriter.close();
