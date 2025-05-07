@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class Champion extends JPanel {
 
     public static int width = 850;
-    public static final int height = 80;
+    public static int height = 80;
     public int x = 0;
     public int y = -200;
     public boolean selected = false;
@@ -46,15 +46,52 @@ public class Champion extends JPanel {
 
         LABEL_Name = new JLabel(name.toUpperCase());
         LABEL_Name.setBounds(90, 5, width, 50);
-        LABEL_Name.setFont(Schemes.titleFont);
+        LABEL_Name.setFont(Schemes.titleFont_1);
         LABEL_Name.setForeground(Schemes.gold);
         this.add(LABEL_Name);
 
         LABEL_Title = new JLabel(title);
         LABEL_Title.setBounds(90, 50, width, 30);
-        LABEL_Title.setFont(Schemes.descFont);
+        LABEL_Title.setFont(Schemes.descFont_1);
         LABEL_Title.setForeground(Schemes.gold2);
         this.add(LABEL_Title);
+
+        try {
+            IMAGE = Champion.LoadImage("Icons/" + FixNameForIcon(name));
+        } catch (IOException e) {
+            System.out.println("Failed: " + FixNameForIcon(name));
+
+            try {
+                IMAGE = Champion.LoadImage("Icons/None.png");
+            } catch (IOException e2) { System.out.println("  Failed: None.png");}
+        }
+    }
+
+    public void Rescale() {
+        this.remove(LABEL_Title);
+        this.add(LABEL_Title);
+
+        int x = height + 5;
+        if (height == 60) {
+            LABEL_Name.setBounds(x, 0, width, 60);
+            LABEL_Name.setFont(Schemes.titleFont_1);
+            this.remove(LABEL_Title);
+        } else if (height == 90) {
+            LABEL_Name.setBounds(x, 0, width, 60);
+            LABEL_Name.setFont(Schemes.titleFont_1);
+            LABEL_Title.setBounds(x, 60, width, 30);
+            LABEL_Title.setFont(Schemes.descFont_1);
+        } else if (height == 120) {
+            LABEL_Name.setBounds(x, 0, width, 80);
+            LABEL_Name.setFont(Schemes.titleFont_2);
+            LABEL_Title.setBounds(x, 80, width, 40);
+            LABEL_Title.setFont(Schemes.descFont_2);
+        } else {
+            LABEL_Name.setBounds(x, 0, width, 100);
+            LABEL_Name.setFont(Schemes.titleFont_3);
+            LABEL_Title.setBounds(x, 100, width, 50);
+            LABEL_Title.setFont(Schemes.descFont_3);
+        }
 
         try {
             IMAGE = Champion.LoadImage("Icons/" + FixNameForIcon(name));
@@ -70,10 +107,6 @@ public class Champion extends JPanel {
 
     public static ArrayList<Champion> ConvertStringArray(String[] in) {
 		ArrayList<Champion> Champions = new ArrayList<Champion>();
-        
-        AT = new AffineTransform();
-        AT.scale(80, 80);
-        SCALE = new AffineTransformOp(AT, AffineTransformOp.TYPE_BILINEAR);
         
 		for (int i = 0; i < in.length; i++) {
             Champions.add(ConvertString(in[i]));
@@ -98,7 +131,7 @@ public class Champion extends JPanel {
         this.update();
         super.paintComponent(g);
 
-        ((Graphics2D)g).drawImage(IMAGE, 0, 0, 80, 80, null);
+        ((Graphics2D)g).drawImage(IMAGE, 0, 0, height, height, null);
 
         if (selected) {
             if (moving)
@@ -134,9 +167,6 @@ public class Champion extends JPanel {
         return name + ".png";
     }
 
-
-    public static AffineTransform AT;
-    public static AffineTransformOp SCALE;
 
     public static BufferedImage LoadImage(String in) throws IOException {
         File imageFile = new File(in);

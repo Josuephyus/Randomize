@@ -2,11 +2,9 @@
 
 This project was made for DangotheSeaOtter as a replacement for a website based randomizer, but I'll take any requests and bug reports.
 
-Because it is made with Java, as long as Java is installed, it should work.
-
 # How to Use?
 
-Required: Java (Either JDK or JRE)
+Required: Java (Either JDK 24)
 
 1. Extract 'RANDOM_CHAMPION'
 2. Run Execute.cmd (Window) or Execute.sh (Linux).
@@ -29,7 +27,9 @@ All spaces, periods, and apostrophes are removed from {name} when searching for 
 4. Pressing [ Enter ] will refresh the list (so you can change without closing)
 5. Pressing [ Backspace ] removes the selected Champion
 6. Pressing [ Left Arrow ] undoes the last remove
-7. Closing the program will save the active Champions into "close.txt"
+7. Pressing [ Right Arrow ] exports the current list as "export.txt"
+8. Pressing [ 1 ] [ 2 ] [ 3 ] or [ 4 ] will change the size of the champion icon
+9. Closing the program will save the active Champions into "close.txt"
 
 The League of Legends font can be downloaded for additional immersion.
 The {title / description} is not necessary and can be omitted.
@@ -42,12 +42,12 @@ The {title / description} is not necessary and can be omitted.
 
 # TODO List
 
-- [v] Create a minimum of one character instead of 10
-- [v] Generate a list from the current use
-- [v] Pressing enter to refresh the list based on open.txt
-- [v] Show a 'None.png' when no '{name}.png' is found
-- [v] Allow Arrow Keys for quick navigation
-- [v] Crash Gracefully when 'open.txt' or 'Icons' do not exists
-- [v] Pressing Backspace removes a character from the list
-- [v] Pressing [ Left Arrow ] will undo the removal of a character
-- [ ] Proper Resizing
+- [-] Create a minimum of one character instead of 10
+- [-] Generate a list from the current use
+- [-] Pressing enter to refresh the list based on open.txt
+- [-] Show a 'None.png' when no '{name}.png' is found
+- [-] Allow Arrow Keys for quick navigation
+- [-] Crash Gracefully when 'open.txt' or 'Icons' do not exists
+- [-] Pressing Backspace removes a character from the list
+- [-] Pressing [ Left Arrow ] will undo the removal of a character
+- [-] Resize options

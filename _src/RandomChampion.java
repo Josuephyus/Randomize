@@ -58,7 +58,7 @@ public class RandomChampion{
 
 	public static WindowAdapter winL = new WindowAdapter() {
 		public void windowClosing(WindowEvent e) {
-			SaveList();
+			SaveList("close.txt");
 		}
 	};
 	public static MouseWheelListener mouL = new MouseWheelListener(){
@@ -109,83 +109,43 @@ public class RandomChampion{
 		Repaint();
 	}
 
+
+	static final byte SPACE = 32, ENTER = 10, BACKSPACE = 8;
+	static final byte UP = 38, DOWN = 40, LEFT = 37, RIGHT = 39;
+	static final byte ALPHABET_START = 64, ALPHABET_END = 91;
+	static final byte ONE = 49, TWO = 50, THREE = 51, FOUR = 52;
 	public static KeyListener keyL = new KeyListener(){
 		public void keyReleased(KeyEvent e) {
 			byte code = (byte)(e.getKeyCode());
 
-
-			// IF (Space) Randomize
-			if (code == 32) {
-				momentum += 150;
-				return;
-			}
-
-
-			// IF (Letter) Search that letter
-			if (code > 64 && code < 91) {
-				for (int i = 0; i < Champions.size(); i++) {
-					Champion tempChamp = Champions.get(i);
-					if (tempChamp.name.getBytes()[0] >= code) {
-						scroll_value = i;
-						break;
-					}
-				}
-				return;
-			}
-
-
-			// IF (Arrow) Move
-			if (code == 38) { // UP
-				scroll_value -= 1;
-				return;
-			}
-			if (code == 40) { // DOWN
-				scroll_value += 1;
-				return;
-			}
-			if (code == 37) { // Left
-				if (RemovedChampions.size() == 0) return;
-
-				Champion tempChamp = RemovedChampions.get(RemovedChampions.size() - 1);
-				for (int i = 0; i < Champions.size(); i++) {
-					String name = Champions.get(i).name;
-					if (name.compareTo(tempChamp.name) > 0) {
-						Champions.add(i, tempChamp);
-						RemovedChampions.remove(RemovedChampions.size() - 1);
-						win.add(tempChamp);
-						return;
-					}
-				}
-				Champions.add(tempChamp);
-				win.add(tempChamp);
-				return;
-			}
-
+			if (code == SPACE) Randomize();
+			if (code > ALPHABET_START && code < ALPHABET_END) Search(code);
+			if (code == UP) OneUp();
+			if (code == DOWN) OneDown();
+			if (code == LEFT) Undo();
+			if (code == RIGHT) SaveList("export.txt");
+			if (code == ENTER) Refresh();
+			if (code == BACKSPACE) RemoveSelected();
 			
-			// IF (Enter) Refresh list
-			if (code == 10) {
-				for (int i = 0; i < Champions.size(); i++) {
-					win.remove(Champions.get(i));
-				}
-				String[] lines = LoadList();
-				Champions = Champion.ConvertStringArray(lines);
-				for (int i = 0; i < Champions.size(); i++) {
-					win.add(Champions.get(i));
-				}
-			}
+			if (code == ONE) SetSize(1);
+			if (code == TWO) SetSize(2);
+			if (code == THREE) SetSize(3);
+			if (code == FOUR) SetSize(4);
 
 
-			// IF (Backspace) Remove item
-			if (code == 8) {
-				win.remove(Champions.get((int)scroll_value));
-				RemovedChampions.add(Champions.get((int)scroll_value));
-				Champions.remove((int)scroll_value);
+			// IF (Tab) Save
+			if (code > 48 && code < 53) {
+				int num = (code - 48) + 1;
+				Champion.height = num * 30;
+				return;
 			}
 		}
 		public void keyPressed(KeyEvent e) {}
 		public void keyTyped(KeyEvent e) {}
 	};
 
+
+	public static void Randomize() { momentum += 150; }
 
 	public static void Repaint() {
 		// Set the locations of visible Champions
@@ -297,23 +257,80 @@ public class RandomChampion{
 		return arr;
 	}
 
-	public static void SaveList() {
+	public static void SaveList(String in) {
 		
 		if (Champions == null) return;
 		if (Champions.size() == 0) return;
-		File closeFile = new File("close.txt");
 
+		File file = new File(in);
 		try {
-			FileWriter closeWriter = new FileWriter(closeFile);
+			FileWriter writer = new FileWriter(file);
 			for (int i = 0; i < Champions.size(); i++) {
-				closeWriter.write(Champions.get(i).name);
-				closeWriter.write(", ");
-				closeWriter.write(Champions.get(i).title);
-				closeWriter.write("\n");
+				writer.write(Champions.get(i).name);
+				writer.write(", ");
+				writer.write(Champions.get(i).title);
+				writer.write("\n");
 			}
-			closeWriter.close();
+			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public static void Search(byte in) {
+		for (int i = 0; i < Champions.size(); i++) {
+			Champion tempChamp = Champions.get(i);
+			if (tempChamp.name.getBytes()[0] >= in) {
+				scroll_value = i;
+				break;
+			}
+		}
+		return;
+	}
+
+	public static void OneUp() { scroll_value -= 1; }
+	public static void OneDown() { scroll_value += 1; }
+	public static void Undo() {
+		if (RemovedChampions.size() == 0) return;
+
+		Champion tempChamp = RemovedChampions.get(RemovedChampions.size() - 1);
+		for (int i = 0; i < Champions.size(); i++) {
+			String name = Champions.get(i).name;
+			if (name.compareTo(tempChamp.name) > 0) {
+				Champions.add(i, tempChamp);
+				RemovedChampions.remove(RemovedChampions.size() - 1);
+				win.add(tempChamp);
+				return;
+			}
+		}
+		Champions.add(tempChamp);
+		win.add(tempChamp);
+		return;
+	}
+	public static void Refresh() {
+		for (int i = 0; i < Champions.size(); i++) {
+			win.remove(Champions.get(i));
+		}
+		String[] lines = LoadList();
+		Champions = Champion.ConvertStringArray(lines);
+		for (int i = 0; i < Champions.size(); i++) {
+			win.add(Champions.get(i));
+		}
+		return;
+	}
+	public static void RemoveSelected() {
+		win.remove(Champions.get((int)scroll_value));
+		RemovedChampions.add(Champions.get((int)scroll_value));
+		Champions.remove((int)scroll_value);
+		return;
+	}
+	public static void SetSize(int in) {
+		Champion.height = 30 + (in * 30);
+		for (int i = 0; i < Champions.size(); i++) {
+			Champions.get(i).Rescale();
+		}
+		for (int i = 0; i < RemovedChampions.size(); i++) {
+			Champions.get(i).Rescale();
 		}
 	}
 }
