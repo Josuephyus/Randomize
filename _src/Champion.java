@@ -26,12 +26,10 @@ public class Champion extends JPanel {
     public boolean affected = false;
     public static boolean moving = false;
 
-    JLabel LABEL_Name;
-    JLabel LABEL_Title;
-    BufferedImage IMAGE;
 
     public String name;
     public String title;
+    BufferedImage IMAGE;
 
 
     public Champion(String name, String title){
@@ -41,57 +39,7 @@ public class Champion extends JPanel {
 
         this.setLayout(null);
         this.setBackground(Schemes.grey3);
-        this.setForeground(Schemes.gold);
         this.setBounds(x, y, width, height);
-
-        LABEL_Name = new JLabel(name.toUpperCase());
-        LABEL_Name.setBounds(90, 5, width, 50);
-        LABEL_Name.setFont(Schemes.titleFont_1);
-        LABEL_Name.setForeground(Schemes.gold);
-        this.add(LABEL_Name);
-
-        LABEL_Title = new JLabel(title);
-        LABEL_Title.setBounds(90, 50, width, 30);
-        LABEL_Title.setFont(Schemes.descFont_1);
-        LABEL_Title.setForeground(Schemes.gold2);
-        this.add(LABEL_Title);
-
-        try {
-            IMAGE = Champion.LoadImage("Icons/" + FixNameForIcon(name));
-        } catch (IOException e) {
-            System.out.println("Failed: " + FixNameForIcon(name));
-
-            try {
-                IMAGE = Champion.LoadImage("Icons/None.png");
-            } catch (IOException e2) { System.out.println("  Failed: None.png");}
-        }
-    }
-
-    public void Rescale() {
-        this.remove(LABEL_Title);
-        this.add(LABEL_Title);
-
-        int x = height + 5;
-        if (height == 60) {
-            LABEL_Name.setBounds(x, 0, width, 60);
-            LABEL_Name.setFont(Schemes.titleFont_1);
-            this.remove(LABEL_Title);
-        } else if (height == 90) {
-            LABEL_Name.setBounds(x, 0, width, 60);
-            LABEL_Name.setFont(Schemes.titleFont_1);
-            LABEL_Title.setBounds(x, 60, width, 30);
-            LABEL_Title.setFont(Schemes.descFont_1);
-        } else if (height == 120) {
-            LABEL_Name.setBounds(x, 0, width, 80);
-            LABEL_Name.setFont(Schemes.titleFont_2);
-            LABEL_Title.setBounds(x, 80, width, 40);
-            LABEL_Title.setFont(Schemes.descFont_2);
-        } else {
-            LABEL_Name.setBounds(x, 0, width, 100);
-            LABEL_Name.setFont(Schemes.titleFont_3);
-            LABEL_Title.setBounds(x, 100, width, 50);
-            LABEL_Title.setFont(Schemes.descFont_3);
-        }
 
         try {
             IMAGE = Champion.LoadImage("Icons/" + FixNameForIcon(name));
@@ -128,23 +76,43 @@ public class Champion extends JPanel {
 
 
     public void paintComponent(Graphics g) {
-        this.update();
         super.paintComponent(g);
 
-        ((Graphics2D)g).drawImage(IMAGE, 0, 0, height, height, null);
+        Graphics2D g2 = (Graphics2D)g;
 
+        // Name
+        g2.setColor(Schemes.gold);
+        if (height < 91) g2.setFont(Schemes.titleFont_1);
+        else if (height < 121) g2.setFont(Schemes.titleFont_2);
+        else g2.setFont(Schemes.titleFont_3);
+
+        if (height < 61) g2.drawString(name, height + 5, height - 10);
+        else g2.drawString(name, height + 5, height / 2);
+
+
+        // Title
+        if (height < 91) g2.setFont(Schemes.descFont_1);
+        else if (height < 121) g2.setFont(Schemes.descFont_2);
+        else g2.setFont(Schemes.descFont_3);
+
+        if (height > 60) {
+            g2.setColor(Schemes.gold2);
+            g2.drawString(title, height + 5, height - 14);
+        }
+
+        // Icon
+        g2.drawImage(IMAGE, 0, 0, height, height, null);
+
+
+        // Border
         if (selected) {
-            if (moving)
-                g.setColor(Schemes.blue2);
-            else
-                g.setColor(Schemes.gold);
+            if (moving) g2.setColor(Schemes.blue2);
+            else g2.setColor(Schemes.gold);
 
-            ((Graphics2D)g).setStroke(new BasicStroke(2));
-            g.drawRect(2, 2, this.getWidth() - 18, height - 4);
+            g2.setStroke(new BasicStroke(2));
+            g2.drawRect(2, 2, this.getWidth() - 18, height - 4);
         }
     }
-
-
     public void update() {
         this.setBounds(x, y, width, height);
     }
