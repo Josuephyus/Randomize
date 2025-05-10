@@ -51,3 +51,4 @@ The {title / description} is not necessary and can be omitted.
 - [-] Pressing Backspace removes a character from the list
 - [-] Pressing [ Left Arrow ] will undo the removal of a character
 - [-] Resize options
+- [ ] Allow for less characters when deleting
