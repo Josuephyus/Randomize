@@ -3,7 +3,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 import java.util.ArrayList;
-
+import java.util.Collections;
 import javax.swing.JFrame;
 
 
@@ -230,5 +230,9 @@ public class RandomChampion{
 	}
 	public static void SetSize(int in) {
 		Champion.height = 30 + (in * 30);
+	}
+	public static void Shuffle() {
+		Collections.shuffle(Champions);
+		Repaint();
 	}
 }
