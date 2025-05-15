@@ -147,7 +147,7 @@ public class RandomChampion{
 		}
 
 		ArrayList<String> NameList = Util.CharArr_to_StrList(chars);
-		NameList = Util.<String>DupToMinSize(NameList, MinimumChampions);
+		NameList = Util.DupStrToMinSize(NameList, MinimumChampions);
 		String[] NameArray = Util.StrList_to_StrArr(NameList);
 
 		return NameArray;
@@ -219,13 +219,37 @@ public class RandomChampion{
 		RemovedChampions.add(Champions.get((int)scroll_value));
 		Champions.remove((int)scroll_value);
 
+		Champion last = RemovedChampions.get(RemovedChampions.size() - 1);
+		for (int i = 0; i < Champions.size(); i++) {
+			if (Champions.get(i).name == last.name) {
+				if (Champions.get(i).isClone) {Z	
+					win.remove(Champions.get(i));
+					RemovedChampions.add(Champions.get(i));
+					Champions.remove(i);
+					System.out.println("REMOVING: " + i);
+					i--;
+				}
+			}
+		}
+
 		if (Champions.size() < MinimumChampions) {
 			for (int i = 0; i < Champions.size(); i++) {
 				win.remove(Champions.get(i));
 			}
 
-			Champions = Util.<Champion>DupToMinSize(Champions, MinimumChampions);
+			Champions = Util.DupToMinSize(Champions, MinimumChampions);
+			System.out.print("\033[H\033[2J");
+			System.out.flush();
+			for (int i = 0; i < Champions.size(); i++) {
+				win.add(Champions.get(i));
+			}
 		}
+		Repaint();
+
+		for (int i = 0; i < Champions.size(); i++) { 
+			System.out.println(i + ": " + Champions.get(i).name);
+		}
+		
 		return;
 	}
 	public static void SetSize(int in) {

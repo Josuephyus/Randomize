@@ -26,6 +26,8 @@ public class Champion extends JPanel {
     public boolean affected = false;
     public static boolean moving = false;
 
+    public boolean isClone = false;
+
 
     public String name;
     public String title;
@@ -53,6 +55,11 @@ public class Champion extends JPanel {
     }
 
 
+    public Champion Clone() {
+        Champion temp = new Champion(name, title);
+        temp.isClone = true;
+        return temp;
+    }
     public static ArrayList<Champion> ConvertStringArray(String[] in) {
 		ArrayList<Champion> Champions = new ArrayList<Champion>();
         
