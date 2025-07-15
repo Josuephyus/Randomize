@@ -1,46 +1,43 @@
-# Biography
+# What is "Randomized!"?
 
-This project was made for DangotheSeaOtter as a replacement for a website based randomizer, but I'll take any requests and bug reports.
+It's just to make the act of picking something random prettier.
+It's made to run on low end computers and only works when in focus.
 
-# How to Use?
+# Download
 
-Required: Java (Either JDK 24)
+Required: Java (Either Java SE 8 or any JDK after 8)
 
-1. Extract 'RANDOM_CHAMPION'
-2. Run Execute.cmd (Window) or Execute.sh (Linux).
+1. Download the "Default Installation" .zip or .tar
+2. Unzip or... untar the "Default Installation"
+3. Double click on Randomized.jar
 
-Any champion listed in "open.txt" will be used in the randomizer.
+There has been issues where java fails to run Randomized.jar.
+If that is the case, use Randomized.bat (Windows) or Randomized.sh (Linux)
 
-The 'Execute' files just run the command 'java -jar RandomChampion.jar' so feel free to skip them if you can. I need them because... I don't know actually...
+# Usage and Modification
 
-# 'open.txt' Structure
+1. "open.txt" is what is shown when opened or refreshed.
+2. "display_#.html" is the format of each selection
 
-{name}, {title / description}
+"display.html" has the option for 'arguments' using {#}. "display.html" will take the {#} option (starting from 0) from open.txt.
 
-All spaces, periods, and apostrophes are removed from {name} when searching for the icon. It only accepts ".pngs" (as of now).
+There are additional Keybinds...
+- [ Space ] Roll
+- [ {Letter} ] Finds the first {0} starting with that letter
+- [ Up Arrow 'or' Down Arrow ] Select Next/Previous
+- [ Enter ] Refresh the list from "open.txt"
+- [ Backspace ] Removes Selected
+- [ Left Arrow ] Undo (for Backspace)
+- [ Right Arrow ] Exports the current list as "export.txt"
+- [ 1/2/3/4 ] Change to display_#.html
 
-# Current Features
-
-1. Pressing [ Space ] rolls for a random champion.
-2. Pressing a letter searches for the first champion that starts with that letter
-3. Pressing [ Up Arrow ] or [ Down Arrow ] will move up or down on the champion list
-4. Pressing [ Enter ] will refresh the list (so you can change without closing)
-5. Pressing [ Backspace ] removes the selected Champion
-6. Pressing [ Left Arrow ] undoes the last remove
-7. Pressing [ Right Arrow ] exports the current list as "export.txt"
-8. Pressing [ 1 ] [ 2 ] [ 3 ] or [ 4 ] will change the size of the champion icon
-9. Closing the program will save the active Champions into "close.txt"
-
-The League of Legends font can be downloaded for additional immersion.
-The {title / description} is not necessary and can be omitted.
+Closing the window will save the list as "close.txt"
 
 # Caution
 
-1. An 'endline' character is required at the end of a page (essentially the last line has to be empty).
-2. 'open.txt' must be 'LF' (not 'CRLF')
+The text file's must be LF (as of now).
 
-
-# TODO List
+# To Do List :
 
 - [-] Create a minimum of one character instead of 10
 - [-] Generate a list from the current use
