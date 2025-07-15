@@ -7,7 +7,7 @@ import java.util.Collections;
 import javax.swing.JFrame;
 
 
-public class RandomChampion{
+public class RandomChampion {
 
 	static JFrame win;
 	static ArrayList<Champion> Champions;
@@ -222,7 +222,7 @@ public class RandomChampion{
 		Champion last = RemovedChampions.get(RemovedChampions.size() - 1);
 		for (int i = 0; i < Champions.size(); i++) {
 			if (Champions.get(i).name == last.name) {
-				if (Champions.get(i).isClone) {Z	
+				if (Champions.get(i).isClone) {
 					win.remove(Champions.get(i));
 					RemovedChampions.add(Champions.get(i));
 					Champions.remove(i);
