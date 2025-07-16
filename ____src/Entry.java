@@ -1,84 +1,108 @@
 package src;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
 import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-
+import javax.swing.JPanel;
 import javax.imageio.ImageIO;
+import java.awt.Font;
 
 import java.util.ArrayList;
 
-public class Entry extends JPanel {
-    public Entry() {
-        super();
-    }
+public class Entry {
 
-    public static int width = 850;
-    public static int height = 80;
-    public int x = 0;
-    public int y = -200;
+    private static final int STATE_1_HEIGHT = 50;
+    private static final int STATE_2_HEIGHT = 80;
+    private static final int STATE_3_HEIGHT = 110;
+    private static final int STATE_4_HEIGHT = 140;
+
+    private static int y;
+    private static int height;
+    private static Font font_title;
+    private static Font font_additional;
+
+    public static boolean moving;
+
+    private int y = -1;
     public boolean selected = false;
     public boolean affected = false;
-    public static boolean moving = false;
 
-    public boolean isClone = false;
-
-
-    public String name;
-    public String title;
-    BufferedImage IMAGE;
-
-
-    public Champion(String name, String title){
+    public Entry() {
         super();
-        this.name = name;
-        this.title = title;
-
         this.setLayout(null);
+        this.setBounds(0, 0, 0, 0);
         this.setBackground(Schemes.grey3);
-        this.setBounds(x, y, width, height);
-
-        try {
-            IMAGE = Champion.LoadImage("Icons/" + FixNameForIcon(name));
-        } catch (IOException e) {
-            System.out.println("Failed: " + FixNameForIcon(name));
-
-            try {
-                IMAGE = Champion.LoadImage("Icons/None.png");
-            } catch (IOException e2) { System.out.println("  Failed: None.png");}
+    }
+    public static void setSize(int in) {
+        switch (in) {
+            case 1:
+                height = STATE_1_HEIGHT;
+                font_title = Schemes.titleFont_1;
+                break;
+            case 2:
+                height = STATE_2_HEIGHT;
+                font_title = Schemes.titleFont_1;
+                font_additional = Schemes.addFont_1;
+                break;
+            case 3:
+                height = STATE_3_HEIGHT;
+                font_title = Schemes.titleFont_2;
+                font_additional = Schemes.addFont_2;
+                break;
+            case 4:
+                height = STATE_4_HEIGHT;
+                font_title = Schemes.titleFont_3;
+                font_additional = Schemes.addFont_3;
+                break;
         }
     }
 
-
-    public Champion Clone() {
-        Champion temp = new Champion(name, title);
-        temp.isClone = true;
-        return temp;
+    
+    private static BufferedImage icon;
+    private static String title, additional;
+    public void setData(String[] in) {
+        if (in.length == 1) {
+            Entry result = new Entry();
+            result.setData(in[0], "");
+            return result;
+        }
+        if (in.length > 1) {
+            Entry result = new Entry();
+            result.setData(in[0], in[1]);
+            return result;
+        }
     }
-    public static ArrayList<Champion> ConvertStringArray(String[] in) {
-		ArrayList<Champion> Champions = new ArrayList<Champion>();
-        
-		for (int i = 0; i < in.length; i++) {
-            Champions.add(ConvertString(in[i]));
-		}
+    public void setData(String _title, String _additional) {
+        icon = LoadImage(_title);
 
-        return Champions;
+        title = _title;
+        additional = _additional;
+    }
+    public String[] getData() {
+        return new String[]{ title, additional };
     }
 
-    public static Champion ConvertString(String in) {
-        String name = in;
-        String title = "";
 
-        if (in.split(", ").length > 1) {
-            name = in.split(", ")[0];
-            title = in.split(", ")[1];
-        }        
-        return new Champion(name, title);
+    public static ArrayList<Entry> ReadFromArray(String[] arr) {
+        ArrayList<Entry> result = new ArrayList<>();
+        for (int i = 0; i < in.length; i++) {
+            result.add(Entry.ReadFromString(in[i]));
+        }
+        return result;
+    }
+    public static Entry ReadFromString(String in) {
+        Entry result = new Entry();
+        result.setData(in.split(", "));
+        return result;
+    }
+
+
+    public Entry clone() {
+        Entry result = new Entry();
+        result.setData(this.getData());
+        return result;
     }
 
 
@@ -86,29 +110,20 @@ public class Entry extends JPanel {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D)g;
-
-        // Name
-        g2.setColor(Schemes.gold);
-        if (height < 91) g2.setFont(Schemes.titleFont_1);
-        else if (height < 121) g2.setFont(Schemes.titleFont_2);
-        else g2.setFont(Schemes.titleFont_3);
-
-        if (height < 61) g2.drawString(name, height + 5, height - 10);
-        else g2.drawString(name, height + 5, height / 2);
-
-
-        // Title
-        if (height < 91) g2.setFont(Schemes.descFont_1);
-        else if (height < 121) g2.setFont(Schemes.descFont_2);
-        else g2.setFont(Schemes.descFont_3);
-
-        if (height > 60) {
+        
+        if (height != STATE_1_HEIGHT) {
+            g2.setColor(Schemes.gold);
+            g2.setFont(font_title);
+            g2.drawString(title, height + 5, height / 2);
             g2.setColor(Schemes.gold2);
-            g2.drawString(title, height + 5, height - 14);
+            g2.setFont(font_additional);
+            g2.drawString(additional, height + 5, height - 14);
+        } else {
+            g2.setColor(Schemes.gold);
+            g2.setFont(font_title);
+            g2.drawString(title, height + 5, height - 10);
         }
-
-        // Icon
-        g2.drawImage(IMAGE, 0, 0, height, height, null);
+        g2.drawImage(image, 0, 0, height, height, null);
 
 
         // Border
@@ -125,28 +140,18 @@ public class Entry extends JPanel {
     }
 
 
+    private static BufferedImage LoadImage(String in) {
+        in = in.replace(" ","");
+        in = in.replace(".","");
+        in = in.replace("'","");
 
+        try { // Try to find in "images"
+            String dir = "images/" + in + ".png";
+            BufferedImage img = ImageIO.read(new File(dir));
 
-    public static String FixNameForIcon(String in) {
-        String name = in;
-        // Dr.Mundo
-        name = name.replace(".","");
-        
-        // Asol
-        name = name.replace(" ", "");
-        
-        // BelVeth, ChoGath, KSante, KaiSa, KhaZix, KogMaw,
-        // RekSai, VelKoz
-        name = name.replace("'", "");
-        
-        return name + ".png";
-    }
-
-
-    public static BufferedImage LoadImage(String in) throws IOException {
-        File imageFile = new File(in);
-        BufferedImage imageBuff = ImageIO.read(imageFile);
-        
-        return imageBuff;
+            return img;
+        } catch (Exception e) {
+            return new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+        }
     }
 }

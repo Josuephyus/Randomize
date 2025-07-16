@@ -15,8 +15,8 @@ public class Util {
         }
         return result;
     }
-    public static ArrayList<Champion> DupToMinSize(ArrayList<Champion> in, int min) {
-        ArrayList<Champion> result = new ArrayList<Champion>();
+    public static ArrayList<Entry> DupToMinSize(ArrayList<Entry> in, int min) {
+        ArrayList<Entry> result = new ArrayList<Entry>();
         for (int i = 0; i < in.size(); i++) {
             result.add(in.get(i));
         }
@@ -55,8 +55,8 @@ public class Util {
         }
         return unique;
     }
-    public static ArrayList<Champion> PurgeDupChamp(ArrayList<Champion> in) {
-        ArrayList<Champion> unique = new ArrayList<Champion>();
+    public static ArrayList<Entry> PurgeDupChamp(ArrayList<Entry> in) {
+        ArrayList<Entry> unique = new ArrayList<Entry>();
         for (int i = 0; i < in.size(); i++) {
             boolean isUnique = true;
             for (int j = 0; j < unique.size(); j++) {

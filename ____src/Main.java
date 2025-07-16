@@ -22,44 +22,38 @@ public class Main {
 	public static void AddMomentum(double in) { momentum += in; }
 
 
-	private static final int MinimumChampions = 18;
+	private static final int MinimumEntries = 18;
 
 	public static void main(String[] args){	
-		window = new Window("Randomize!");
 		listeners = new Listeners();
 
 		SwingUtilities.invokeLater(new Runnable(){public void run(){
+			window = new Window("Randomize");
+			window.add(display);
 			window.setSize(864, 436);
 			window.addKeyListener(listeners);
 			window.addFocusListener(listeners);
 			window.addWindowListener(listeners);
 			window.addMouseWheelListener(listeners);
+			window.repaint();
 		}});
 
+		display = new Display();
 
-		Entries = Entry.ReadFromArray(LoadList());
-		RemovedEntries = new ArrayList<Entry>();
-		
 		SwingUtilities.invokeLater(new Runnable(){public void run(){
-			for (int i = 0; i < Entries.size(); i++) {
-				window.add(Entries.get(i));
-			}
+			window.add(display);
 		}});
-
-		window.repaint();
 	}
 
 
-
-
 	public static void ReduceMomentum() {
-		scroll_value += (momentum * 4.0 / Champion.height);
+		scroll_value += (momentum / 20.0f);
 
-		if (Champions == null) return;
-		if (Champions.size() == 0) return;
+		if (Entries == null) return;
+		if (Entries.size() == 0) return;
 
-		scroll_value %= Champions.size();
-		if (scroll_value < 0) scroll_value += Champions.size();
+		scroll_value %= Entries.size();
+		if (scroll_value < 0) scroll_value += Entries.size();
 
 		if (momentum > 1000) momentum = 1000.0;
 		else if (momentum > 150) momentum -= 50.0 / 60.0;
@@ -69,57 +63,56 @@ public class Main {
 		
 		
 		if (momentum < 0) momentum = 0;
-		if (momentum == 0) Champion.moving = false;
-		else Champion.moving = true;
+		if (momentum == 0) Entries.moving = false;
+		else Entries.moving = true;
 	}
 
 
 
 	public static void Randomize() { momentum += 150; }
 	public static void Update() {
-		if (Champions == null) return;
-		for (int i = 0; i < Champions.size(); i++)
-		Champions.get(i).update();
+		if (Entries == null) return;
+		for (int i = 0; i < Entries.size(); i++)
+		Entries.get(i).update();
 	}
 
 	public static void Repaint() {
-		// Set the locations of visible Champions
 		int visible = 18;
 		int half = (visible / 2) - 1;
 		int scr_h = win.getHeight();
 		int yRound = (int)Math.round(scroll_value - 0.5f);
 		double yValue = scroll_value - yRound;
 
-		if (Champions == null) return;
-		if (Champions.size() == 0) return;
+		if (Entries == null) return;
+		if (Entries.size() == 0) return;
 
 		for (int i = 0; i < visible; i++){
 			int index = yRound + i - half;
 
-			if (index < 0) index += Champions.size();
-			if (index > Champions.size() - 1) index %=  Champions.size();
+			if (index < 0) index += Entries.size();
+			if (index > Entries.size() - 1) index %= Entries.size();
 			
-			int y = (int)((half - i + yValue) * Champion.height) + (scr_h / 2) + 0;
-			Champions.get(index).y = scr_h - y;
+			int y = (int)((half - i + yValue) * 80) + (scr_h / 2) + 0;
+			Entries.get(index).y = scr_h - y;
 			if (i == half)
-				Champions.get(index).selected = true;
+				Entries.get(index).selected = true;
 			else
-				Champions.get(index).selected = false;
+				Entries.get(index).selected = false;
 
-			Champions.get(index).affected = true;
+			Entries.get(index).affected = true;
 		}
 		
 
 		// Assign Default Values for those unaffected
 		Champion.width = win.getWidth();
-		for (int i = 0; i < Champions.size(); i++) {
-			if (Champions.get(i).affected) {
-				Champions.get(i).affected = false;
+		for (int i = 0; i < Entries.size(); i++) {
+			if (Entries.get(i).affected) {
+				Entries.get(i).affected = false;
 				continue;
 			}
 
-			Champions.get(i).y = -500;
-			Champions.get(i).selected = false;
+			Entries.get(i).y = -500;
+			Entries.get(i).selected = false;
 		}
 
 		// Repaint the window
@@ -134,11 +127,11 @@ public class Main {
 
 		char[] chars = Util.ReadFile("open.txt");
 		if (chars == null) {
-			return Util.GenerateEmptyStringArray(MinimumChampions);
+			return Util.GenerateEmptyStringArray(MinimumEntries);
 		}
 
 		ArrayList<String> NameList = Util.CharArr_to_StrList(chars);
-		NameList = Util.DupStrToMinSize(NameList, MinimumChampions);
+		NameList = Util.DupStrToMinSize(NameList, MinimumEntries);
 		String[] NameArray = Util.StrList_to_StrArr(NameList);
 
 		return NameArray;
@@ -146,16 +139,16 @@ public class Main {
 
 	public static void SaveList(String in) {
 		
-		if (Champions == null) return;
-		if (Champions.size() == 0) return;
+		if (Entries == null) return;
+		if (Entries.size() == 0) return;
 
 		File file = new File(in);
 		try {
 			FileWriter writer = new FileWriter(file);
-			for (int i = 0; i < Champions.size(); i++) {
-				writer.write(Champions.get(i).name);
+			for (int i = 0; i < Entries.size(); i++) {
+				writer.write(Entries.get(i).name);
 				writer.write(", ");
-				writer.write(Champions.get(i).title);
+				writer.write(Entries.get(i).title);
 				writer.write("\n");
 			}
 			writer.close();
@@ -165,8 +158,8 @@ public class Main {
 	}
 
 	public static void Search(byte in) {
-		for (int i = 0; i < Champions.size(); i++) {
-			Champion tempChamp = Champions.get(i);
+		for (int i = 0; i < Entries.size(); i++) {
+			Champion tempChamp = Entries.get(i);
 			if (tempChamp.name.getBytes()[0] >= in) {
 				scroll_value = i;
 				break;
@@ -178,76 +171,74 @@ public class Main {
 	public static void OneUp() { scroll_value -= 1; }
 	public static void OneDown() { scroll_value += 1; }
 	public static void Undo() {
-		if (RemovedChampions.size() == 0) return;
+		if (RemovedEntries.size() == 0) return;
 
-		Champion tempChamp = RemovedChampions.get(RemovedChampions.size() - 1);
-		for (int i = 0; i < Champions.size(); i++) {
-			String name = Champions.get(i).name;
+		Champion tempChamp = RemovedEntries.get(RemovedEntries.size() - 1);
+		for (int i = 0; i < Entries.size(); i++) {
+			String name = Entries.get(i).name;
 			if (name.compareTo(tempChamp.name) > 0) {
-				Champions.add(i, tempChamp);
-				RemovedChampions.remove(RemovedChampions.size() - 1);
+				Entries.add(i, tempChamp);
+				RemovedEntries.remove(RemovedEntries.size() - 1);
 				win.add(tempChamp);
 				return;
 			}
 		}
-		Champions.add(tempChamp);
+		Entries.add(tempChamp);
 		win.add(tempChamp);
 		return;
 	}
 	public static void Refresh() {
-		for (int i = 0; i < Champions.size(); i++) {
-			win.remove(Champions.get(i));
+		for (int i = 0; i < Entries.size(); i++) {
+			win.remove(Entries.get(i));
 		}
 		String[] lines = LoadList();
-		Champions = Champion.ConvertStringArray(lines);
-		for (int i = 0; i < Champions.size(); i++) {
-			win.add(Champions.get(i));
+		Entries = Champion.ConvertStringArray(lines);
+		for (int i = 0; i < Entries.size(); i++) {
+			win.add(Entries.get(i));
 		}
 		return;
 	}
 	public static void RemoveSelected() {
-		win.remove(Champions.get((int)scroll_value));
-		RemovedChampions.add(Champions.get((int)scroll_value));
-		Champions.remove((int)scroll_value);
+		win.remove(Entries.get((int)scroll_value));
+		RemovedEntries.add(Entries.get((int)scroll_value));
+		Entries.remove((int)scroll_value);
 
-		Champion last = RemovedChampions.get(RemovedChampions.size() - 1);
-		for (int i = 0; i < Champions.size(); i++) {
-			if (Champions.get(i).name == last.name) {
-				if (Champions.get(i).isClone) {
-					win.remove(Champions.get(i));
-					RemovedChampions.add(Champions.get(i));
-					Champions.remove(i);
+		Champion last = RemovedEntries.get(RemovedEntries.size() - 1);
+		for (int i = 0; i < Entries.size(); i++) {
+			if (Entries.get(i).name == last.name) {
+				if (Entries.get(i).isClone) {
+					win.remove(Entries.get(i));
+					RemovedEntries.add(Entries.get(i));
+					Entries.remove(i);
 					System.out.println("REMOVING: " + i);
 					i--;
 				}
 			}
 		}
 
-		if (Champions.size() < MinimumChampions) {
-			for (int i = 0; i < Champions.size(); i++) {
-				win.remove(Champions.get(i));
+		if (Entries.size() < MinimumEntries) {
+			for (int i = 0; i < Entries.size(); i++) {
+				win.remove(Entries.get(i));
 			}
 
-			Champions = Util.DupToMinSize(Champions, MinimumChampions);
+			Entries = Util.DupToMinSize(Entries, MinimumEntries);
 			System.out.print("\033[H\033[2J");
 			System.out.flush();
-			for (int i = 0; i < Champions.size(); i++) {
-				win.add(Champions.get(i));
+			for (int i = 0; i < Entries.size(); i++) {
+				win.add(Entries.get(i));
 			}
 		}
 		Repaint();
 
-		for (int i = 0; i < Champions.size(); i++) { 
-			System.out.println(i + ": " + Champions.get(i).name);
+		for (int i = 0; i < Entries.size(); i++) { 
+			System.out.println(i + ": " + Entries.get(i).name);
 		}
 		
 		return;
 	}
-	public static void SetSize(int in) {
-		Champion.height = 30 + (in * 30);
-	}
+	public static void SetSize(int in) { Entry.setSize(in); }
 	public static void Shuffle() {
-		Collections.shuffle(Champions);
+		Collections.shuffle(Entries);
 		Repaint();
 	}
 }

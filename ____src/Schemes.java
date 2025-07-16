@@ -5,12 +5,12 @@ import java.awt.Font;
 
 public class Schemes {
 
-    public static final Font titleFont_1 = new Font("Beaufort for LOL", Font.BOLD, 40);
-    public static final Font descFont_1 = new Font("Spiegel Bold", Font.PLAIN, 25);
-    public static final Font titleFont_2 = new Font("Beaufort for LOL", Font.BOLD, 60);
-    public static final Font descFont_2 = new Font("Spiegel Bold", Font.PLAIN, 35);
-    public static final Font titleFont_3 = new Font("Beaufort for LOL", Font.BOLD, 80);
-    public static final Font descFont_3 = new Font("Spiegel Bold", Font.PLAIN, 45);
+    public static final Font titleFont_1 = new Font("Arial", Font.BOLD, 40);
+    public static final Font descFont_1 = new Font("Arial", Font.PLAIN, 25);
+    public static final Font titleFont_2 = new Font("Arial", Font.BOLD, 60);
+    public static final Font descFont_2 = new Font("Arial", Font.PLAIN, 35);
+    public static final Font titleFont_3 = new Font("Arial", Font.BOLD, 80);
+    public static final Font descFont_3 = new Font("Arial", Font.PLAIN, 45);
 
     public static final Color grey1 = new Color(160, 155, 140);
     public static final Color grey2 = new Color(91, 90, 86);
