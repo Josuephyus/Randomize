@@ -90,30 +90,32 @@ public class Display extends JPanel {
             Entry entry = Entries.get(index);
 
             int start_y = (int)((-half + i - yValue) * height) + (h / 2);
+            // System.out.print(i + ", " + index + ", " + half);
+            // System.out.println(", " + yValue + ", " + (h / 2) + ", " + start_y);
             g.setColor(Schemes.color_grey3);
             g.fillRect(0, start_y, w, height);
 
             g.drawImage(ImageLoader.get(entry.image), 0, start_y, height, height, null);
-            if (height != STATE_1_HEIGHT) {
+            if (height == STATE_1_HEIGHT) {
+                g2.setColor(Schemes.color_gold);
+                g2.setFont(font_title);
+                g2.drawString(entry.title, height + 5, start_y + (height - 10));
+            } else {
                 g2.setColor(Schemes.color_gold);
                 g2.setFont(font_title);
                 g2.drawString(entry.title, height + 5, start_y + (height / 2));
                 g2.setColor(Schemes.color_gold2);
                 g2.setFont(font_additional);
                 g2.drawString(entry.additional, height + 5, start_y + (height - 14));
-            } else {
-                g2.setColor(Schemes.color_gold);
-                g2.setFont(font_title);
-                g2.drawString(entry.title, height + 5, start_y + (height - 10));
             }
-            System.out.println(start_y);
 
-            if (i == half - 1) {
+            if (i == half) {
                 g2.setColor(Schemes.color_blue2);
                 g2.setStroke(new BasicStroke(2));
                 g2.drawRect(2, start_y + 2, this.getWidth() - 18, height - 4);
             }
         }
+        
     }
     private void paintEmpty(Graphics g) {
         g.setColor(Schemes.color_grey3);
@@ -188,7 +190,12 @@ public class Display extends JPanel {
     }
     public void move(int in) { y += (float)in; }
     public void undo() {
-        Entry entry = RemovedEntries.get(RemovedEntries.size() - 1);
+        if (RemovedEntries.size() == 0) return;
+        if (Entries.size() == 0) {
+            y = 0;
+        }
+
+        Entry entry = RemovedEntries.remove(RemovedEntries.size() - 1);
         int index = entry.prevIndex;
         if (index > Entries.size()) index = Entries.size();
         Entries.add(index, entry);

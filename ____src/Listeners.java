@@ -1,5 +1,6 @@
 package src;
 
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseWheelEvent;
@@ -19,7 +20,7 @@ public class Listeners extends WindowAdapter implements MouseWheelListener, Focu
 
     // Mouse Wheel Adapter
     public void mouseWheelMoved(MouseWheelEvent e) {
-        Main.AddMomentum(e.getWheelRotation());
+        Main.AddMomentum((int)e.getWheelRotation());
     }
 
 
@@ -41,7 +42,9 @@ public class Listeners extends WindowAdapter implements MouseWheelListener, Focu
                 start = end;
                 Main.ReduceMomentum((float)delta / 1000.0f);
                 Main.Repaint();
-                
+                if (System.getProperty("os.name").equals("Linux")) {
+                    Toolkit.getDefaultToolkit().sync();
+                }
                 
                 try { Thread.sleep(10); }
                 catch (Exception e) { e.printStackTrace(); }

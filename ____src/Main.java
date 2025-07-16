@@ -9,14 +9,6 @@ public class Main {
 	private static Display display;
 	private static Listeners listeners;
 
-	static double scroll_value = 0.5;
-
-	static double momentum = 0;
-	public static void AddMomentum(double in) { momentum += in; }
-
-
-	private static final int MinimumEntries = 18;
-
 	public static void main(String[] args){	
 		listeners = new Listeners();
 
@@ -38,6 +30,9 @@ public class Main {
 	}
 
 
+	public static void AddMomentum(int in) {
+		display.addMomentum(in);
+	}
 	public static void ReduceMomentum(float delta) {
 		display.reduceMomentum(delta);
 	}
