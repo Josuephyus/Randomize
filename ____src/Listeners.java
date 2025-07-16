@@ -32,12 +32,16 @@ public class Listeners extends WindowAdapter implements MouseWheelListener, Focu
         public void end() { active = false;}
 
         public void run() {
+            long start = System.currentTimeMillis();
             super.run();
             active = true;
             while (active) {
-                Main.ReduceMomentum();
+                long end = System.currentTimeMillis();
+                long delta = end - start;
+                start = end;
+                Main.ReduceMomentum((float)delta / 1000.0f);
                 Main.Repaint();
-                Main.Update();
+                
                 
                 try { Thread.sleep(10); }
                 catch (Exception e) { e.printStackTrace(); }
