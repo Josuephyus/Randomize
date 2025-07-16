@@ -16,10 +16,11 @@ If that is the case, use Randomized.bat (Windows) or Randomized.sh (Linux)
 
 # Usage and Modification
 
-1. "open.txt" is what is shown when opened or refreshed.
-2. "display_#.html" is the format of each selection
+"open.txt" is what is shown when opened or refreshed.
+It has two sections, the Title and the Additional.
 
-"display.html" has the option for 'arguments' using {#}. "display.html" will take the {#} option (starting from 0) from open.txt.
+Title is what is displayed prominantly and what is used when searching for the image.
+Additional is displayed underneath in all modes but 1. It's just for clarification.
 
 There are additional Keybinds...
 - [ Space ] Roll
@@ -29,7 +30,7 @@ There are additional Keybinds...
 - [ Backspace ] Removes Selected
 - [ Left Arrow ] Undo (for Backspace)
 - [ Right Arrow ] Exports the current list as "export.txt"
-- [ 1/2/3/4 ] Change to display_#.html
+- [ 1/2/3/4 ] Change between mode/scaling
 
 Closing the window will save the list as "close.txt"
 
