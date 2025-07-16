@@ -10,6 +10,7 @@ public class Main {
 	private static Listeners listeners;
 
 	public static void main(String[] args){	
+		display = new Display();
 		listeners = new Listeners();
 
 		SwingUtilities.invokeLater(new Runnable(){public void run(){
@@ -19,11 +20,6 @@ public class Main {
 			window.addFocusListener(listeners);
 			window.addWindowListener(listeners);
 			window.addMouseWheelListener(listeners);
-		}});
-
-		display = new Display();
-
-		SwingUtilities.invokeLater(new Runnable(){public void run(){
 			window.add(display);
 			window.repaint();
 		}});

@@ -80,6 +80,11 @@ public class Display extends JPanel {
         int half = (amount / 2);
         int yRound = (int)Math.round(y - 0.5f);
         float yValue = y - (float)yRound;
+        if (Float.isNaN(yValue)) {
+            yRound = (int)Math.round(y - 0.5f);
+            yValue = y - (float)yRound;
+            y = 0;
+        }
         Graphics2D g2 = (Graphics2D)g;
 
         for (int i = 0; i < amount; i++) {
@@ -186,14 +191,12 @@ public class Display extends JPanel {
         }
         if (first != Integer.MAX_VALUE) {
             y = first;
+            searchCounterTotal = 0;
         }
     }
     public void move(int in) { y += (float)in; }
     public void undo() {
         if (RemovedEntries.size() == 0) return;
-        if (Entries.size() == 0) {
-            y = 0;
-        }
 
         Entry entry = RemovedEntries.remove(RemovedEntries.size() - 1);
         int index = entry.prevIndex;
@@ -201,6 +204,8 @@ public class Display extends JPanel {
         Entries.add(index, entry);
     }
     public void removeSelected() {
+        if (Entries.size() == 0) return;
+
         int yRound = (int)y;
         Entry entry = Entries.remove(yRound);
         entry.prevIndex = yRound;

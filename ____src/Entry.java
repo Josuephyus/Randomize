@@ -1,13 +1,5 @@
 package src;
 
-import java.awt.BasicStroke;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import javax.imageio.ImageIO;
-import java.awt.Font;
-
 import java.util.ArrayList;
 
 public class Entry {
@@ -43,20 +35,5 @@ public class Entry {
             result.add(new Entry(arr[i]));
         }
         return result;
-    }
-
-
-    public void paintComponent(Graphics g) {
-
-        Graphics2D g2 = (Graphics2D)g;
-    
-        // Border
-        // if (selected) {
-        //     if (moving) g2.setColor(Schemes.blue2);
-        //     else g2.setColor(Schemes.gold);
-
-        //     g2.setStroke(new BasicStroke(2));
-        //     g2.drawRect(2, 2, this.getWidth() - 18, height - 4);
-        // }
     }
 }
