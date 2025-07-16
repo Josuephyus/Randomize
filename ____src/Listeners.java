@@ -1,3 +1,5 @@
+package src;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseWheelEvent;
@@ -7,78 +9,67 @@ import java.awt.event.FocusListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 
-public class Listeners {
-    
-    
-    public static class WindowL extends WindowAdapter {
-        public void windowClosing(WindowEvent e) {
-            RandomChampion.SaveList("close.txt");
-        }
+public class Listeners extends WindowAdapter implements MouseWheelListener, FocusListener, KeyListener{
+
+    // Window Adapter
+    public void windowClosing(WindowEvent e) {
+        Main.SaveList("close.txt");
     }
 
 
-    public static class MouseL implements MouseWheelListener {
-        public void mouseWheelMoved(MouseWheelEvent e) {
-            RandomChampion.AddMomentum(e.getWheelRotation());
-        }
+    // Mouse Wheel Adapter
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        Main.AddMomentum(e.getWheelRotation());
     }
 
 
-    public static class FocusL implements FocusListener {
-        Loop loop;
-        public void focusGained(FocusEvent e) {
-            loop = new Loop();
-            loop.start();
-        }
-        public void focusLost(FocusEvent e) {
-            loop.end();
-        }
+    // Focus Listener
+    Loop loop;
+    public void focusGained(FocusEvent e) { loop = new Loop(); loop.start(); }
+    public void focusLost(FocusEvent e) { loop.end(); }
+    public static class Loop extends Thread {
+        private boolean active = true;
+        public void end() { active = false;}
 
-        public static class Loop extends Thread {
-            private boolean active = true;
-            public void end() { active = false;}
-
-            public void run() {
-                super.run();
-                active = true;
-                while (active) {
-                    RandomChampion.ReduceMomentum();
-                    RandomChampion.Repaint();
-                    RandomChampion.Update();
-                    
-                    try { Thread.sleep(10); }
-                    catch (Exception e) { e.printStackTrace(); }
-                }
+        public void run() {
+            super.run();
+            active = true;
+            while (active) {
+                Main.ReduceMomentum();
+                Main.Repaint();
+                Main.Update();
+                
+                try { Thread.sleep(10); }
+                catch (Exception e) { e.printStackTrace(); }
             }
         }
     }
 
 
-    static final byte SPACE = 32, ENTER = 10, BACKSPACE = 8;
-	static final byte UP = 38, DOWN = 40, LEFT = 37, RIGHT = 39;
-	static final byte ALPHABET_START = 64, ALPHABET_END = 91;
-	static final byte ONE = 49, TWO = 50, THREE = 51, FOUR = 52;
-    static final byte TILDE = (byte)KeyEvent.VK_BACK_QUOTE;
-	public static class KeyL implements KeyListener {
-		public void keyReleased(KeyEvent e) {
-			byte code = (byte)(e.getKeyCode());
+    // Key Listener
+    private static final byte SPACE = 32, ENTER = 10, BACKSPACE = 8;
+	private static final byte UP = 38, DOWN = 40, LEFT = 37, RIGHT = 39;
+	private static final byte ALPHABET_START = 64, ALPHABET_END = 91;
+	private static final byte ONE = 49, TWO = 50, THREE = 51, FOUR = 52;
+    private static final byte TILDE = (byte)KeyEvent.VK_BACK_QUOTE;
+    public void keyReleased(KeyEvent e) {
+        byte code = (byte)(e.getKeyCode());
 
-			if (code == SPACE) RandomChampion.Randomize();
-			if (code > ALPHABET_START && code < ALPHABET_END) RandomChampion.Search(code);
-			if (code == UP) RandomChampion.OneUp();
-			if (code == DOWN) RandomChampion.OneDown();
-			if (code == LEFT) RandomChampion.Undo();
-			if (code == RIGHT) RandomChampion.SaveList("export.txt");
-			if (code == ENTER) RandomChampion.Refresh();
-			if (code == BACKSPACE) RandomChampion.RemoveSelected();
-			
-			if (code == ONE) RandomChampion.SetSize(1);
-			if (code == TWO) RandomChampion.SetSize(2);
-			if (code == THREE) RandomChampion.SetSize(3);
-			if (code == FOUR) RandomChampion.SetSize(4);
-            if (code == TILDE) RandomChampion.Shuffle();
-		}
-		public void keyPressed(KeyEvent e) {}
-		public void keyTyped(KeyEvent e) {}
-	};
+        if (code == SPACE) Main.Randomize();
+        if (code > ALPHABET_START && code < ALPHABET_END) Main.Search(code);
+        if (code == UP) Main.OneUp();
+        if (code == DOWN) Main.OneDown();
+        if (code == LEFT) Main.Undo();
+        if (code == RIGHT) Main.SaveList("export.txt");
+        if (code == ENTER) Main.Refresh();
+        if (code == BACKSPACE) Main.RemoveSelected();
+        
+        if (code == ONE) Main.SetSize(1);
+        if (code == TWO) Main.SetSize(2);
+        if (code == THREE) Main.SetSize(3);
+        if (code == FOUR) Main.SetSize(4);
+        if (code == TILDE) Main.Shuffle();
+    }
+    public void keyPressed(KeyEvent e) {}
+    public void keyTyped(KeyEvent e) {}
 }

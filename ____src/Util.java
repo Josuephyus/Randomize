@@ -1,5 +1,6 @@
-import java.util.ArrayList;
+package src;
 
+import java.util.ArrayList;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -82,7 +83,9 @@ public class Util {
 			ListReader.read(output);
 			ListReader.close();
             return output;
-		} catch (IOException e) {}
+		} catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return null;
     }

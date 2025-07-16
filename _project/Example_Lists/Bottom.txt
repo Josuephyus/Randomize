@@ -1,0 +1,58 @@
+Akshan, The Rogue Sentinel
+Aphelios, The Weapon of the Faithful
+Ashe, The Frost Archer
+Caitlyn, The Sheriff of Piltover
+Corki, The Daring Bombardier
+Draven, The Glorious Executioner
+Ezreal, The Prodigal Explorer
+Heimerdinger, The Revered Inventor
+Hwei, The Visionary
+Jayce, The Defender of Tomorrow
+Jhin, The Virtuoso
+Jinx, The Loose Cannon
+Kai'Sa, The Daughter of the Void
+Kalista, The Spear of Vengeance
+Karma, The Enlightened One
+Karthus, The Deathsinger
+Kindred, The Eternal Hunters
+Kog'Maw, The Mouth of the Abyss
+LeBlanc, The Deceiver
+Lissandra, The Ice Witch
+Lucian, The Purifier
+Lux, The Lady of Luminosity
+Malzahar, The Prophet of the Void
+Mel, The Soul's Reflection
+Miss Fortune, The Bounty Hunter
+Morgana, The Fallen
+Neeko, The Curious Chameleon
+Nilah, The Joy Unbounds
+Orianna, The Lady of Clockwork
+Quinn, Demacia's Wings
+Samira, The Desert Rose
+Sejuani, The Fury of the North
+Seraphine, The Starry-Eyed Songstress
+Sivir, The Battle Mistress
+Smolder, The Fiery Fledgling
+Swain, The Noxian Grand General
+Syndra, The Dark Sovereign
+Taliyah, The Stoneweaver
+Teemo, The Swift Scout
+Thresh, The Chain Warden
+Tristana, The Yordle Gunner
+Tryndamere, The Barbarian King
+Twisted Fate, The Card Master
+Twitch, The Plague Rat
+Varus, The Arrow of Retribution
+Vayne, The Night Hunter
+Veigar, The Tiny Master of Evil
+Vel'Koz, The Tye of the Void
+Viktor, The Machine Herald
+Xayah, The Rebel
+Xerath, The Magus Ascendant
+Yasuo, The Unforgiven
+Yone, The Unforgotten
+Zeri, The Spark of Zaun
+Ziggs, The Hexplosives Expert
+Zilean, The Chronokeeper
+Zoe, The Aspect of Twilight
+Zyra, Rise of the Thorns

@@ -1,6 +1,6 @@
 echo "[Jyph] Loading Variables..."
 
-mainClass="src.RandomChampion"
+mainClass="src.Main"
 release="8"
 resType=""
 

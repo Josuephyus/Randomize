@@ -1,7 +1,8 @@
 @echo off
 
-IF EXIST "./_project/Main_8.jar" (
+cd _project
+IF EXIST "Main_8.jar" (
     echo [Jyph] Running...
     echo --------------------
-    java.exe -jar ./_project/Main_8.jar
+    java.exe -jar Main_8.jar
 )

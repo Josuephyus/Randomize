@@ -1,6 +1,7 @@
-if [ -f "_project/Main_8.jar" ]; then
+cd _project
+if [ -f "Main_8.jar" ]; then
     echo "[Jyph] Running..."
     echo "--------------------"
     
-    java -jar _project/Main_8.jar
+    java -jar Main_8.jar
 fi
