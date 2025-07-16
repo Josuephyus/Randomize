@@ -48,7 +48,7 @@ public class FileHandler {
         try {
             FileWriter writer = new FileWriter(file);
             for (int i = 0; i < lines.length; i++) {
-                writer.write(lines + "\n");
+                writer.write(lines[i] + "\n");
             }
             writer.close();
         } catch (IOException e) {
