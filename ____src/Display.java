@@ -154,7 +154,7 @@ public class Display extends JPanel {
     }
     public void addMomentum(float in) { momentum += in; }
     public void openList() {
-        String[] entries = FileHandler.FileToStringArray("open.txt");
+        String[] entries = FileHandler.FileToStringArray("texts/open.txt");
         Entries = Entry.ReadFromArray(entries);
         RemovedEntries = new ArrayList<Entry>();
     }

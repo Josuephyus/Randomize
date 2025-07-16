@@ -14,7 +14,7 @@ public class Listeners extends WindowAdapter implements MouseWheelListener, Focu
 
     // Window Adapter
     public void windowClosing(WindowEvent e) {
-        Main.SaveList("close.txt");
+        Main.SaveList("texts/close.txt");
     }
 
 
@@ -67,7 +67,7 @@ public class Listeners extends WindowAdapter implements MouseWheelListener, Focu
         if (code == UP) Main.OneUp();
         if (code == DOWN) Main.OneDown();
         if (code == LEFT) Main.Undo();
-        if (code == RIGHT) Main.SaveList("export.txt");
+        if (code == RIGHT) Main.SaveList("texts/export.txt");
         if (code == ENTER) Main.Refresh();
         if (code == BACKSPACE) Main.RemoveSelected();
         
