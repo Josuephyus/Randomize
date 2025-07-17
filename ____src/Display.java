@@ -14,6 +14,7 @@ public class Display extends JPanel {
 
     private float y = 0;
     private float momentum = 0;
+    public boolean moving = false;
 
     private ArrayList<Entry> Entries;
     private ArrayList<Entry> RemovedEntries;
@@ -74,7 +75,7 @@ public class Display extends JPanel {
 
         // Get amount to display
         int h = this.getHeight();
-        int amount = (h / height) + 2;
+        int amount = (h / height) + 4;
 
         // Then draw them (in a disgusting way)
         int half = (amount / 2);
@@ -97,35 +98,39 @@ public class Display extends JPanel {
             int start_y = (int)((-half + i - yValue) * height) + (h / 2);
             // System.out.print(i + ", " + index + ", " + half);
             // System.out.println(", " + yValue + ", " + (h / 2) + ", " + start_y);
-            g.setColor(Schemes.color_grey3);
+            g.setColor(Schemes.color_background);
             g.fillRect(0, start_y, w, height);
 
             g.drawImage(ImageLoader.get(entry.image), 0, start_y, height, height, null);
             if (height == STATE_1_HEIGHT) {
-                g2.setColor(Schemes.color_gold);
+                g2.setColor(Schemes.color_title);
                 g2.setFont(font_title);
                 g2.drawString(entry.title, height + 5, start_y + (height - 10));
             } else {
-                g2.setColor(Schemes.color_gold);
+                g2.setColor(Schemes.color_title);
                 g2.setFont(font_title);
                 g2.drawString(entry.title, height + 5, start_y + (height / 2));
-                g2.setColor(Schemes.color_gold2);
+                g2.setColor(Schemes.color_additional);
                 g2.setFont(font_additional);
                 g2.drawString(entry.additional, height + 5, start_y + (height - 14));
             }
 
             if (i == half) {
-                g2.setColor(Schemes.color_blue2);
+                if (moving) g2.setColor(Schemes.color_movingBorder);
+                else g2.setColor(Schemes.color_selectedBorder);
                 g2.setStroke(new BasicStroke(2));
-                g2.drawRect(2, start_y + 2, this.getWidth() - 18, height - 4);
+                g2.drawRect(2, start_y + 2, this.getWidth() - 2, height - 4);
             }
         }
         
     }
     private void paintEmpty(Graphics g) {
-        g.setColor(Schemes.color_grey3);
-        Graphics2D g2 = (Graphics2D)g;
+        g.setColor(Schemes.color_background);
+        g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
+        Graphics2D g2 = (Graphics2D)g;
+        g2.setFont(Schemes.font_err);
+        g2.setColor(Schemes.color_title);
         g2.drawString("Empty List", 10, this.getHeight() / 2);
     }
 
@@ -146,11 +151,8 @@ public class Display extends JPanel {
         else momentum -= 3.0f * delta;
 
         if (momentum < 0) momentum = 0;
-        if (momentum == 0) {
-            // Highlight a special color
-        } else {
-            // Highlight moving color
-        }
+        if (momentum == 0) { moving = false; }
+        else { moving = true; }
     }
     public void addMomentum(float in) { momentum += in; }
     public void openList() {

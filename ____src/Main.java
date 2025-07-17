@@ -14,7 +14,7 @@ public class Main {
 		listeners = new Listeners();
 
 		SwingUtilities.invokeLater(new Runnable(){public void run(){
-			window = new Window("Randomize");
+			window = new Window("Randomize!");
 			window.setSize(864, 436);
 			window.addKeyListener(listeners);
 			window.addFocusListener(listeners);
@@ -26,6 +26,9 @@ public class Main {
 	}
 
 
+	public static boolean rolling() {
+		return display.moving;
+	}
 	public static void AddMomentum(int in) {
 		display.addMomentum(in);
 	}

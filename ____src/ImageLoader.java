@@ -6,7 +6,15 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 public class ImageLoader {
-    public static ArrayList<LoadedImage> LoadedImages = new ArrayList<>();
+    public static ArrayList<LoadedImage> LoadedImages = new ArrayList<>(){
+        {
+            this.add(
+                new LoadedImage(
+                    "", new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB)
+                )
+            );
+        }
+    };
 
     public static int preload(String in) {
         in = in.replace(" ","");
