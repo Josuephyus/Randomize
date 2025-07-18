@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 public class ImageLoader {
-    public static ArrayList<LoadedImage> LoadedImages = new ArrayList<>(){
+    public static ArrayList<LoadedImage> LoadedImages = new ArrayList<LoadedImage>(){
         {
             this.add(
                 new LoadedImage(
