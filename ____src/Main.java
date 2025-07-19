@@ -10,6 +10,7 @@ public class Main {
 	private static Listeners listeners;
 
 	public static void main(String[] args){	
+		Schemes.Reset();
 		display = new Display();
 		listeners = new Listeners();
 
@@ -42,6 +43,7 @@ public class Main {
 		window.repaint();
 	}
 	public static void OpenList() {
+		Schemes.Reset();
 		display.openList();
 	}
 	public static void SaveList(String in) {

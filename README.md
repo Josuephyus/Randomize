@@ -40,13 +40,9 @@ The text file's must be LF (as of now).
 
 # To Do List :
 
-- [-] Create a minimum of one character instead of 10
-- [-] Generate a list from the current use
-- [-] Pressing enter to refresh the list based on open.txt
-- [-] Show a 'None.png' when no '{name}.png' is found
-- [-] Allow Arrow Keys for quick navigation
-- [-] Crash Gracefully when 'open.txt' or 'Icons' do not exists
-- [-] Pressing Backspace removes a character from the list
-- [-] Pressing [ Left Arrow ] will undo the removal of a character
-- [-] Resize options
-- [ ] Allow for less characters when deleting
+- [x] Pressing [ Left Arrow ] will undo the removal of a character
+- [x] Resize options
+- [x] Allow for less characters when deleting
+- [x] Custom Colors
+- [x] Default Color Scheme
+- [ ] Allow for CRLF text files
