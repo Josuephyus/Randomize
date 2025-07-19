@@ -38,11 +38,6 @@ Closing the window will save the list as "close.txt"
 
 The text file's must be LF (as of now).
 
-# To Do List :
+# Complete!
 
-- [x] Pressing [ Left Arrow ] will undo the removal of a character
-- [x] Resize options
-- [x] Allow for less characters when deleting
-- [x] Custom Colors
-- [x] Default Color Scheme
-- [ ] Allow for CRLF text files
+If I add anything, it will be a text document with the inputs.

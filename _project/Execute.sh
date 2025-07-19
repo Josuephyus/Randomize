@@ -1,1 +1,1 @@
-java -jar RandomChampion.jar
+javaw -jar Main_8.jar

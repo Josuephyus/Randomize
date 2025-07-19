@@ -1,1 +1,1 @@
-java -jar Main_8.jar
+javaw -jar Main_8.jar

@@ -3,41 +3,30 @@ package src;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileHandler {
     public static String[] FileToStringArray(String in) {
-        // Convert to Char[] Array
-        char[] charArr = null;
+        // Read Lines as ArrayList<String>
+		ArrayList<String> strArr = new ArrayList<String>();
         File file = new File(in);
         try {
-			charArr = new char[(int)file.length()];
             FileReader reader = new FileReader(file);
-            reader.read(charArr);
+            BufferedReader buffr = new BufferedReader(reader);
+            for (String line = buffr.readLine(); line != null; line = buffr.readLine()){
+                if (line.trim().length() > 0) {
+                    strArr.add(line);
+                }
+            }
             reader.close();
         } catch (Exception e) {  }
 
-
-        // Convert to ArrayList<String>
-        String line = "";
-        char newline = (char)10;
-		ArrayList<String> strArr = new ArrayList<String>();
-		for (int i = 0; i < charArr.length; i++) {
-			if (charArr[i] == newline) {
-				strArr.add(line);
-				line = new String();
-			} else {
-				line += charArr[i];
-			}
-		}
-
-
         // Convert to String[]
         String[] result = new String[strArr.size()];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = strArr.get(i);
-        }
+        strArr.toArray(result);
+        
         return result;
     }
 
