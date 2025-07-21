@@ -38,10 +38,12 @@ There are additional Keybinds...
 
 Closing the window will save the list as "close.txt"
 
-# Caution
-
-The text file's must be LF (as of now).
-
 # Complete!
 
-If I add anything, it will be a text document with the inputs.
+This project is... complete. There is more I could add, but this is all I wanted out of the project. If I add anything else... it might be:
+- [ ] Custom Fonts
+- [ ] Custom Color for certain entries
+- [ ] Hex for Colors
+- [ ] Custom Window Title
+
+But again, this is done. I don't think I'll come back to this
