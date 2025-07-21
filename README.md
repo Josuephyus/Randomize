@@ -1,4 +1,4 @@
-# What is "Randomized!"?
+# What is "Randomize!"?
 
 It's just to make the act of picking something random prettier.
 It's made to run on low end computers and only works when in focus.
