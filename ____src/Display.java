@@ -2,7 +2,6 @@ package src;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 import java.awt.BasicStroke;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -107,12 +106,19 @@ public class Display extends JPanel {
                 g2.setFont(font_title);
                 g2.drawString(entry.title, height + 5, start_y + (height - 10));
             } else {
-                g2.setColor(Schemes.color_title);
-                g2.setFont(font_title);
-                g2.drawString(entry.title, height + 5, start_y + (height / 2));
-                g2.setColor(Schemes.color_additional);
-                g2.setFont(font_additional);
-                g2.drawString(entry.additional, height + 5, start_y + (height - 14));
+                if (entry.additional == null) {
+                    g2.setColor(Schemes.color_title);
+                    g2.setFont(font_title);
+                    g2.drawString(entry.title, height + 5, start_y + (height * 11 / 16));
+                } else {
+                    g2.setColor(Schemes.color_title);
+                    g2.setFont(font_title);
+                    g2.drawString(entry.title, height + 5, start_y + (height / 2));
+                    g2.setColor(Schemes.color_additional);
+                    g2.setFont(font_additional);
+                    g2.drawString(entry.additional, height + 5, start_y + (height - 14));
+                }
+                
             }
 
             if (i == half) {
@@ -139,16 +145,12 @@ public class Display extends JPanel {
 
     // Utils
     public void reduceMomentum(float delta) {
-        y += (momentum * 4.0f / height);
-
+        y += momentum * 2 / height;
         while (y < 0) { y += Entries.size(); }
         y %= Entries.size();
-        
-        if (momentum > 1000.0f) momentum = 1000.0f * delta;
-        else if (momentum > 150.0f) momentum -= 50.0f * delta;
-        else if (momentum > 55.0f) momentum -= 50.0f * delta;
-        else if (momentum > 25.0f) momentum -= 50.0f * delta;
-        else momentum -= 3.0f * delta;
+
+        float reduce = delta * 5;
+        momentum -= reduce;
 
         if (momentum < 0) momentum = 0;
         if (momentum == 0) { moving = false; }
@@ -215,5 +217,14 @@ public class Display extends JPanel {
     }
     public void shuffle() {
 		Collections.shuffle(Entries);
+    }
+    public void randomize() {
+        int count = (this.getHeight() / height) + 4;
+        count += getRandom(0, Entries.size());
+
+        addMomentum(count);
+    }
+    public int getRandom(int min, int max) {
+        return (int)(Math.random() * (max - min + 1)) + min;
     }
 }

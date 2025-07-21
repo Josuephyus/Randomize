@@ -1,1 +1,1 @@
-javaw -jar Main_8.jar
+javaw -jar Randomized.jar

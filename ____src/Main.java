@@ -37,13 +37,12 @@ public class Main {
 		display.reduceMomentum(delta);
 	}
 	public static void Randomize() {
-		display.addMomentum(150);
+		display.randomize();
 	}
 	public static void Repaint() {
 		window.repaint();
 	}
 	public static void OpenList() {
-		Schemes.Reset();
 		display.openList();
 	}
 	public static void SaveList(String in) {
@@ -62,6 +61,7 @@ public class Main {
 		display.undo();
 	}
 	public static void Refresh() {
+		Schemes.Reset();
 		display.openList();
 	}
 	public static void RemoveSelected() {

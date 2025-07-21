@@ -25,7 +25,11 @@ public class Entry {
         }
     }
     @Override public String toString() {
-        return title + separator + additional;
+        if (additional != null) {
+            return title + separator + additional;
+        } else {
+            return title;
+        }
     }
 
 
