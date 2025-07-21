@@ -3,7 +3,9 @@
 It's just to make the act of picking something random prettier.
 It's made to run on low end computers and only works when in focus.
 
-[Example of Breakfast List](https://github.com/josuephyus/Randomized/.images/Breakfast.png "Breakfast List")
+[Example of Breakfast List](https://github.com/josuephyus/Randomized/tree/main/.images/Breakfast.png "Breakfast List")
+[Example of Fast Food List](https://github.com/josuephyus/Randomized/tree/main/.images/FastFood.png "Fast Food List")
+[Example of League of Legends List](https://github.com/josuephyus/Randomized/tree/main/.images/LeagueofLegends.png "League of Legends List")
 
 # Download
 
