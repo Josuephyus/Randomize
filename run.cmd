@@ -1,8 +1,8 @@
 @echo off
 
 cd _project
-IF EXIST "Main_8.jar" (
+IF EXIST "Randomize.jar" (
     echo [Jyph] Running...
     echo --------------------
-    java.exe -jar Main_8.jar
+    java.exe -jar Randomize.jar
 )

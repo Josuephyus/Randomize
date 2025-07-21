@@ -1,1 +1,1 @@
-javaw -jar Randomized.jar
+javaw -jar Randomize.jar

@@ -1,7 +1,7 @@
 cd _project
-if [ -f "Randomized.jar" ]; then
+if [ -f "Randomize.jar" ]; then
     echo "[Jyph] Running..."
     echo "--------------------"
     
-    java -jar Randomized.jar
+    java -jar Randomize.jar
 fi

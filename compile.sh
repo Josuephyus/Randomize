@@ -8,6 +8,6 @@ src="____src"
 res="___resources"
 build="__build"
 proj="_project"
-output="$proj/Main"
+output="$proj/Randomize"
 
 source "compileJava.sh"
