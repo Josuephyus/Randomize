@@ -3,7 +3,7 @@
 It's just to make the act of picking something random prettier.
 It's made to run on low end computers and only works when in focus.
 
-![Example of Breakfast List](https://github.com/josuephyus/Randomized/.images/Breakfast.png)
+[Example of Breakfast List](https://github.com/josuephyus/Randomized/.images/Breakfast.png)
 
 # Download
 
