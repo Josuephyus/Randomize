@@ -3,6 +3,8 @@
 It's just to make the act of picking something random prettier.
 It's made to run on low end computers and only works when in focus.
 
+![Example of Breakfast List](https://github.com/josuephyus/Randomized/.images/Breakfast.png)
+
 # Download
 
 Required: Java (Either Java SE 8 or any JDK after 8)

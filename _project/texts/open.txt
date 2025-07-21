@@ -1,8 +1,6 @@
-Eggs
-Waffles
-Pancakes
-Cereal 1, Cornflakes
-Cereal 2, Oreo
-Sandwich
-Toast
-Corndogs
+Whataburger
+McDonalds
+Subway
+Dairy Queen
+Burger King
+Five Guys
